@@ -1,0 +1,26 @@
+{
+  "name": "administrator-site-api-rest",
+  "version": "1.0.0",
+  "description": "cacao's admin api, built to manage clients, employees and more. ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest.git"
+  },
+  "keywords": [
+    "express",
+    "rest",
+    "api",
+    "clean"
+  ],
+  "author": "luis castillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest/issues"
+  },
+  "homepage": "https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest#readme"
+}
