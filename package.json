@@ -2,10 +2,11 @@
   "name": "administrator-site-api-rest",
   "version": "1.0.0",
   "description": "cacao's admin api, built to manage clients, employees and more. ",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build:dev": "babel src -d build --source-maps --watch"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,22 @@
   "bugs": {
     "url": "https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest/issues"
   },
-  "homepage": "https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest#readme"
+  "homepage": "https://gitlab.com/cacao-en-bytes/administrator-site/administrator-site-api-rest#readme",
+  "dependencies": {
+    "awilix": "^4.3.4",
+    "awilix-express": "^4.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0"
+  }
 }
