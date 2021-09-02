@@ -1,4 +1,4 @@
-import Bootstrap from './app/bootstrap.js';
+const Bootstrap = require('./app/bootstrap.js');
 
 const boostrap = new Bootstrap();
 boostrap.run((port) =>

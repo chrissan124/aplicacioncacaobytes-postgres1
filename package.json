@@ -2,7 +2,7 @@
   "name": "administrator-site-api-rest",
   "version": "1.0.0",
   "description": "cacao's admin api, built to manage clients, employees and more. ",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "test",
     "build":"npm-run-all clean transpile",

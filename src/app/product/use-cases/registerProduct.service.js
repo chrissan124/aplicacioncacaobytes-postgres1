@@ -1,8 +1,9 @@
-export default class registerProductService {
-  constructor(productRepository) {
-    this.productRepository = productRepository;
+class registerProductService {
+  constructor(productsRepository) {
+    this.productsRepository = productsRepository;
   }
-  async postProduct() {
+  async registerProduct(product) {
     return true;
   }
 }
+module.exports = registerProductService;

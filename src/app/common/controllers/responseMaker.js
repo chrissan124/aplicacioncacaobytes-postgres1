@@ -24,7 +24,9 @@ function makeSuccess(body = {}, status = 200) {
   }
 }
 
-export default responseMaker = {
+const responseMaker = {
   makeError,
   makeSuccess,
 };
+
+module.exports = responseMaker;

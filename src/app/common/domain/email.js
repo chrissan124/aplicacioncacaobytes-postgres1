@@ -1,6 +1,6 @@
-import validateExp from "./regexValidator.js"
+const validateExp = require('./regexValidator.js');
 
-export default function validateEmail(email){
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    return validateExp(regex,email,'email')
-}
+module.exports = function validateEmail(email) {
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return validateExp(regex, email, 'email');
+};

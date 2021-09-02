@@ -1,6 +1,6 @@
-import betweenValidator from '../../common/domain/betweenValidator.js.js';
+const betweenValidator = require('../../common/domain/betweenValidator.js.js');
 
-export default function contractEntity({
+module.exports = function contractEntity({
   signedDate,
   startDate,
   expirationDate,
@@ -39,4 +39,4 @@ export default function contractEntity({
     statusId,
     isCreated: () => contractId && clientProductId,
   });
-}
+};

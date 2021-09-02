@@ -1,10 +1,16 @@
-import { asClass, createContainer, InjectionMode } from 'awilix';
-import AppConfig from './app.config.js';
-import App from './app.js';
-import ProductRepository from './product/persistence/products.repository.js';
-import registerProductService from './product/use-cases/registerProduct.service.js';
-
-export default class Bootstrap {
+const {
+  asClass,
+  createContainer,
+  InjectionMode,
+  asValue,
+  Lifetime,
+} = require('awilix');
+const awilix = require('awilix');
+const AppConfig = require('./app.config.js');
+const App = require('./app.js');
+const apiDb = require('./common/persistence/apiDb.js');
+const { resolve } = require('path');
+class Bootstrap {
   constructor() {
     this.instance = this._createContainer();
   }
@@ -20,9 +26,24 @@ export default class Bootstrap {
     container.register({
       app: asClass(App).singleton(),
       appConfig: asClass(AppConfig).singleton(),
-      registerProductService: asClass(registerProductService).singleton(),
-      productRepository: asClass(ProductRepository).singleton(),
+      apiDb: asValue(apiDb),
     });
+
+    container.loadModules(
+      [
+        `${resolve('src')}/**/*.service.js`,
+        `${resolve('src')}/**/*.repository.js`,
+      ],
+      {
+        formatName: 'camelCase',
+        resolverOptions: {
+          lifetime: Lifetime.SINGLETON,
+          register: awilix.asClass,
+        },
+      }
+    );
+
     return container;
   }
 }
+module.exports = Bootstrap;

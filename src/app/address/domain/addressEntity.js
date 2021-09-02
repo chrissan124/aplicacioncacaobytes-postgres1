@@ -1,6 +1,6 @@
-import betweenValidator from '../../common/domain/betweenValidator.js.js';
+const betweenValidator = require('../../common/domain/betweenValidator.js.js');
 
-export default function addressEntity({
+module.exports = function addressEntity({
   primaryLine,
   secondaryLine,
   city,
@@ -25,4 +25,4 @@ export default function addressEntity({
     zipCode,
     addressId,
   });
-}
+};

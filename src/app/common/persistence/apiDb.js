@@ -1,9 +1,9 @@
-import Sequilize from 'sequelize';
-import dotenv from 'dotenv';
+const Sequilize = require('sequelize');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
-const sequilize = new Sequilize(
+const apiDb = new Sequilize(
   process.env.DM_POSTGRES_DB_NAME,
   process.env.DM_POSTGRES_DB_USER,
   process.env.DM_POSTGRES_DB_PASS,
@@ -12,4 +12,4 @@ const sequilize = new Sequilize(
   }
 );
 
-export default sequilize;
+module.exports = apiDb;

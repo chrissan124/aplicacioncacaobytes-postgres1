@@ -1,9 +1,10 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { loadControllers, scopePerRequest } from 'awilix-express';
-import { resolve } from 'path';
-export default class App {
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { loadControllers, scopePerRequest } = require('awilix-express');
+const { resolve } = require('path');
+
+class App {
   constructor(appConfig) {
     this.appConfig = appConfig;
   }
@@ -20,9 +21,9 @@ export default class App {
     app.use(bodyParser.json());
     app.use(cors());
     app.use(scopePerRequest(container));
-    console.log(import.meta.url);
+
     app.use(
-      loadControllers(`routes/*.controller.js`, {
+      loadControllers(`${resolve('src')}/**/*.controller.js`, {
         cwd: __dirname,
       })
     );
@@ -30,3 +31,5 @@ export default class App {
     return app;
   }
 }
+
+module.exports = App;
