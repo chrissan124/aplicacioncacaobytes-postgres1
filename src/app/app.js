@@ -20,10 +20,10 @@ export default class App {
     app.use(bodyParser.json());
     app.use(cors());
     app.use(scopePerRequest(container));
-
+    console.log(import.meta.url);
     app.use(
-      loadControllers(`${resolve('src')}/**/*.controller.js`, {
-        cwd: import.meta.url,
+      loadControllers(`routes/*.controller.js`, {
+        cwd: __dirname,
       })
     );
 
