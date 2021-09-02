@@ -1,5 +1,5 @@
 import { asClass, createContainer, InjectionMode } from 'awilix';
-import AppConfig from '../../app.config.js';
+import AppConfig from './app.config.js';
 import App from './app.js';
 import ProductRepository from './product/persistence/products.repository.js';
 import registerProductService from './product/use-cases/registerProduct.service.js';

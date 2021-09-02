@@ -1,5 +1,6 @@
+import { POST, route } from 'awilix-express';
 @route('/api/products')
-export default class productRegisterController {
+export default class productsController {
   constructor(registerProductService) {
     this.registerService = registerProductService;
   }

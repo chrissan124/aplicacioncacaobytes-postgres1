@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 import { resolve } from 'path';
 export default class App {
@@ -17,8 +18,9 @@ export default class App {
     const app = express();
 
     app.use(bodyParser.json());
-
+    app.use(cors());
     app.use(scopePerRequest(container));
+
     app.use(
       loadControllers(`${resolve('src')}/**/*.controller.js`, {
         cwd: import.meta.url,
