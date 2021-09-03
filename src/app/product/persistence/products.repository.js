@@ -1,7 +1,8 @@
-class ProductRepository {
+const Repository = require('../../common/persistence/sequilize/sequelizeRepository')
+class ProductRepository extends Repository {
   constructor(apiDb) {
-    this.apiDb = apiDb;
+    super(apiDb.models.Product)
   }
 }
 
-module.exports = ProductRepository;
+module.exports = ProductRepository

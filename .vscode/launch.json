@@ -5,25 +5,19 @@
       "type": "node",
       "request": "launch",
       "name": "Launch App",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/server.js",
       "envFile": "${workspaceFolder}/.env",
-      "outFiles": [
-        "${workspaceRoot}/build/**/*.js"
-      ]
+      "outFiles": ["${workspaceRoot}/build/**/*.js"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch Current File",
-      "skipFiles": [
-          "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${file}",
       "envFile": "${workspaceFolder}/.env",
-      "outFiles": [ "${workspaceRoot}/build/**/*.js" ]
+      "outFiles": ["${workspaceRoot}/build/**/*.js"]
     }
   ]
 }

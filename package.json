@@ -5,15 +5,32 @@
   "type": "commonjs",
   "scripts": {
     "test": "test",
-    "build":"npm-run-all clean transpile",
-    "server":"node ./build/server",
-    "dev":"npm-run-all build server",
+    "build": "npm-run-all clean transpile",
+    "server": "node ./build/server",
+    "dev": "npm-run-all build server",
+    "watch:dev": "nodemon",
     "transpile": "babel src -d build",
-    "clean": "rimraf build"
+    "clean": "rimraf build",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "format": "npx prettier --write ."
   },
   "babel": {
     "presets": [
       "@babel/preset-env"
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "npm run dev",
+    "restartable": "rs",
+    "watch": [
+      "src/*",
+      "build/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
     ]
   },
   "repository": {
@@ -39,6 +56,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "glob": "^7.1.7",
     "nodemon": "^2.0.12",
     "npm-run-all": "^4.1.5",
     "pg": "^8.7.1",
@@ -51,6 +69,11 @@
     "@babel/core": "^7.15.0",
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.15.0",
-    "@babel/preset-env": "^7.15.0"
+    "@babel/preset-env": "^7.15.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "kill-port": "^1.6.1",
+    "prettier": "^2.3.2"
   }
 }

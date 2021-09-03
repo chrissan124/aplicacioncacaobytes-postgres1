@@ -1,12 +1,12 @@
 const productEntity = require('../domain/productEntity')
 
-class registerProductService {
+class updateProductService {
   constructor(productsRepository) {
     this.productsRepository = productsRepository
   }
-  async registerProduct(product) {
+  async updateProduct(product) {
     productEntity(product)
-    return this.productsRepository.create(product)
+    return this.productsRepository.update(product)
   }
 }
-module.exports = registerProductService
+module.exports = updateProductService

@@ -13,17 +13,17 @@ export default function makeExpressCallback(controller) {
         Referer: req.get('referer'),
         'User-Agent': req.get('User-Agent'),
       },
-    };
+    }
     controller(httpRequest)
       .then((httpResponse) => {
         if (httpResponse.headers) {
-          res.set(httpResponse.headers);
+          res.set(httpResponse.headers)
         }
-        res.type('json');
-        res.status(httpResponse.statusCode).send(httpResponse.body);
+        res.type('json')
+        res.status(httpResponse.statusCode).send(httpResponse.body)
       })
       .catch((e) =>
         res.status(500).send({ error: 'An unkown error occurred.' })
-      );
-  };
+      )
+  }
 }
