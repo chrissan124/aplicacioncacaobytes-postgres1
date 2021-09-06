@@ -9,6 +9,8 @@ const {
   returnError,
   databaseErrors,
 } = require('./common/controllers/error-handling/errorHandler')
+const httpLogger = require('./common/controllers/logger/httpLogger')
+const logger = require('./common/controllers/logger/logger')
 
 class App {
   constructor(appConfig) {
@@ -26,6 +28,7 @@ class App {
 
     app.use(bodyParser.json())
     app.use(cors())
+    app.use(httpLogger)
     app.set('json spaces', 2)
     app.use(scopePerRequest(container))
     //Automatically load all controller routes

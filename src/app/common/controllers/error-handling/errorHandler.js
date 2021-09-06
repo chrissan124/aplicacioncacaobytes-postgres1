@@ -1,7 +1,7 @@
+const logger = require('../logger/logger')
+
 function logError(err) {
-  //console.error( err)
-  //original sql
-  console.log(err.original.table)
+  logger.error(err.message)
 }
 
 function logErrorMiddleware(err, req, res, next) {
