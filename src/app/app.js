@@ -4,6 +4,13 @@ const cors = require('cors')
 const kill = require('kill-port')
 const { loadControllers, scopePerRequest } = require('awilix-express')
 const { resolve } = require('path')
+const {
+  logErrorMiddleware,
+  returnError,
+  databaseErrors,
+} = require('./common/controllers/error-handling/errorHandler')
+const httpLogger = require('./common/controllers/logger/httpLogger')
+const logger = require('./common/controllers/logger/logger')
 
 class App {
   constructor(appConfig) {
@@ -21,6 +28,8 @@ class App {
 
     app.use(bodyParser.json())
     app.use(cors())
+    app.use(httpLogger)
+    app.set('json spaces', 2)
     app.use(scopePerRequest(container))
     //Automatically load all controller routes
     app.use(
@@ -28,7 +37,9 @@ class App {
         cwd: __dirname,
       })
     )
-
+    app.use(logErrorMiddleware)
+    app.use(databaseErrors)
+    app.use(returnError)
     return app
   }
 }
