@@ -11,18 +11,21 @@ const App = require('./app.js')
 const apiDb = require('./common/persistence/sequilize/apiDb.js')
 const { resolve } = require('path')
 class Bootstrap {
-  constructor() {
-    this.instance = this._createContainer()
+  constructor() {}
+
+  async init() {
+    this.instance = await this._createContainer()
+    return this
   }
 
-  run(callback) {
+  async run(callback) {
     const app = this.instance.resolve('app')
-    app.start(this.instance, callback)
+    await app.start(this.instance, callback)
   }
 
-  _createContainer() {
+  async _createContainer() {
     const container = createContainer({ injectionMode: InjectionMode.CLASSIC })
-
+    await apiDb.sync({ alter: true })
     container.register({
       app: asClass(App).singleton(),
       appConfig: asClass(AppConfig).singleton(),
@@ -46,4 +49,7 @@ class Bootstrap {
     return container
   }
 }
-module.exports = Bootstrap
+async function newAsyncBootstrap() {
+  return await new Bootstrap().init()
+}
+module.exports = newAsyncBootstrap

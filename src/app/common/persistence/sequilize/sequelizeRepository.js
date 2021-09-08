@@ -1,19 +1,34 @@
 const findId = require('../idFinder')
 const Repo = require('../repo')
+const findAssociations = require('./findAssociations')
 
 class SequilizeRepository extends Repo {
-  constructor(model) {
+  constructor(model, apiDb) {
     super()
-    this.model = model
-    this.primaryKey = findId(this.model.primaryKeys)
+    if (model) {
+      this.model = model
+      this.apiDb = apiDb
+      this.primaryKey = findId(this.model.primaryKeys)
+    } else {
+      throw new Error(`Model can't be undefined!`)
+    }
   }
 
-  async getAll() {
-    const items = await this.model.findAll()
+  async getAll(ops = { include: [], limit, offset, conditions: {} }) {
+    const associations = findAssociations(this.model, ops.include)
+    const items = await this.model.findAll({
+      include: associations,
+      limit: ops.limit,
+      offset: ops.offset,
+      where: ops.conditions,
+    })
     return items
   }
-  async getById(id) {
-    const item = this.model.findByPk(id)
+  async getById(id, ops = { include: [] }) {
+    const associations = findAssociations(this.model, ops.include)
+    const item = this.model.findByPk(id, {
+      include: associations,
+    })
     return item
   }
   async create(item) {
@@ -25,12 +40,21 @@ class SequilizeRepository extends Repo {
   }
   async update(item) {
     if (item) {
-      await this.model.update(item, {
+      const result = await this.model.upsert(item)
+      const res = Array.isArray(result) ? result[0] : result
+      return res
+    }
+    return false
+  }
+  async remove(id) {
+    if (id) {
+      return await this.model.destroy({
         where: {
-          [this.primaryKey]: item[this.primaryKey],
+          [this.primaryKey]: id,
         },
       })
     }
+    return false
   }
 }
 
