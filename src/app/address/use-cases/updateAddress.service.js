@@ -4,7 +4,7 @@ class updateAddressService {
     this.addressRepository = addressRepository
   }
   async updateAddress(address) {
-    addressEntity(address)
+    addressEntity(address, true)
     return await this.addressRepository.update(address)
   }
 }

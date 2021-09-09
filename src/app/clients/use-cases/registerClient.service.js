@@ -7,7 +7,7 @@ class registerClientService {
   }
   async registerClient(client) {
     clientEntity(client)
-    if (client.address) addressEntity(client.address)
+    if (client.Address) addressEntity(client.Address)
     return await this.clientRepository.create(client)
   }
 }

@@ -1,5 +1,6 @@
-const SequilizeRepository = require('../../common/persistence/sequilize/sequelizeRepository')
-class AddressRepository extends SequilizeRepository {
+const SequelizeRepo = require('../../common/persistence/sequilize/repositories/sequelizeRepo')
+
+class AddressRepository extends SequelizeRepo {
   constructor(apiDb) {
     super(apiDb.models.Address)
   }

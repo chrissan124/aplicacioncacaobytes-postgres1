@@ -7,7 +7,7 @@ module.exports = function makeModel(apiDb) {
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true,
+        //unique: true,
       },
       productId: {
         type: DataTypes.UUID,
@@ -18,6 +18,7 @@ module.exports = function makeModel(apiDb) {
     },
     {
       paranoid: true,
+      indexes: [{ unique: true, fields: ['name'] }],
     }
   )
   return Product

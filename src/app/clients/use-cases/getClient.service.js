@@ -5,7 +5,7 @@ module.exports = class GetClientService {
 
   async getClient(id) {
     return await this.clientRepository.getById(id, {
-      include: ['Address'],
+      include: ['Address', 'Status'],
     })
   }
 }

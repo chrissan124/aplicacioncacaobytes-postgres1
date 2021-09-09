@@ -5,7 +5,7 @@ module.exports = class GetClientsService {
 
   async getClients(paging = {}) {
     return await this.clientRepository.getAll({
-      include: ['Address'],
+      include: ['Address', 'Status'],
       ...paging,
     })
   }

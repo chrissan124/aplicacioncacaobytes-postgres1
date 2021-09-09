@@ -6,8 +6,8 @@ class updateClientService {
     this.clientRepository = clientRepository
   }
   async updateClient(client) {
-    clientEntity(client)
-    if (client.address) addressEntity(client.address)
+    clientEntity(client, true)
+    if (client.Address) addressEntity(client.Address, true)
     return await this.clientRepository.update(client)
   }
 }

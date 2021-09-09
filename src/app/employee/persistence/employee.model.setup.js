@@ -1,18 +1,18 @@
 module.exports = function setupModel(db) {
-  const { Address, Client, Status } = db.models
-  Address.hasMany(Client, {
+  const { Address, Employee, Status } = db.models
+  Address.hasMany(Employee, {
     foreignKey: 'addressFk',
   })
 
-  Client.belongsTo(Address, {
+  Employee.belongsTo(Address, {
     foreignKey: 'addressFk',
   })
 
-  Status.hasMany(Client, {
+  Status.hasMany(Employee, {
     foreignKey: 'statusFk',
   })
 
-  Client.belongsTo(Status, {
+  Employee.belongsTo(Status, {
     foreignKey: 'statusFk',
   })
 }

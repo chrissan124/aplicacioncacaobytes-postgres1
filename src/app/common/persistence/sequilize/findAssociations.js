@@ -6,6 +6,7 @@ function findAssociations(model, associationNames = []) {
       if (assoc) associations.push(assoc)
     })
   }
+
   return associations
 }
 module.exports = findAssociations
