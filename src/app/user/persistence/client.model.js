@@ -1,41 +1,35 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = function makeModel(apiDb) {
-  const Employee = apiDb.define(
-    'Employee',
+  const User = apiDb.define(
+    'User',
     {
       firstName: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      secondName: {
-        type: DataTypes.STRING(50),
-        allowNull: true,
-      },
+
       lastName: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      middleName: {
-        type: DataTypes.STRING(50),
-        allowNull: true,
-      },
-      legalIdentifier: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-      },
+
       email: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(200),
         allowNull: false,
         validate: {
           isEmail: true,
         },
       },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       phone: {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      employeeId: {
+      userId: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -44,5 +38,5 @@ module.exports = function makeModel(apiDb) {
     },
     { paranoid: true }
   )
-  return Employee
+  return User
 }

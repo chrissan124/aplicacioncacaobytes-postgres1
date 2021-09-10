@@ -14,7 +14,7 @@ module.exports = function employeeEntity(
     secondLastName,
     email,
     phone,
-    employId,
+    employeeId,
     addressId,
     statusId,
   },
@@ -29,10 +29,10 @@ module.exports = function employeeEntity(
     betweenValidator.stringBetween(lastName, 2, 50, 'last name')
   !secondName ||
     betweenValidator.stringBetween(secondName, 2, 50, 'second name')
-  !lastName ||
+  !secondLastName ||
     betweenValidator.stringBetween(secondLastName, 2, 50, 'second last name')
 
-  update && validateId(employId)
+  update && validateId(employeeId)
 
   return Object.freeze({
     legalIdentifier,
@@ -42,7 +42,7 @@ module.exports = function employeeEntity(
     secondLastName,
     email,
     phone,
-    employId,
+    employeeId,
     addressId,
     statusId,
   })

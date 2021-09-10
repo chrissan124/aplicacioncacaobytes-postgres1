@@ -27,15 +27,16 @@ function makeModel(apiDb) {
   Status.sync()
     .then(async () => {
       const statusCount = await Status.count()
-      if (statusCount === 0) {
-        const records = []
-        Object.keys(statuses).forEach((key) => {
-          records.push({ name: key })
+      const statusNames = Object.keys(statuses)
+      if (statusCount < statusNames.length) {
+        statusNames.forEach((key) => {
+          Status.create({ name: key }).catch(() =>
+            logger.error(`${key} status already exists`)
+          )
         })
-        Status.bulkCreate(records).catch((err) => logger.log(err))
       }
     })
-    .catch((err) => logger.log(err))
+    .catch((err) => logger.error(err))
   return Status
 }
 

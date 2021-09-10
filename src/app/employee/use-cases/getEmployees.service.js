@@ -9,4 +9,9 @@ module.exports = class getEmployeesService {
       include: ['Address', 'Status'],
     })
   }
+  async getEmployee(id) {
+    return await this.employeeRepository.getById(id, {
+      include: ['Address', 'Status'],
+    })
+  }
 }

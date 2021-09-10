@@ -30,9 +30,23 @@ const alterControllers = (updateClientService, removeClientService) => ({
       next(error)
     }
   },
+  restoreClient: async (req, res, next) => {
+    try {
+      const id = req.params.id
+      const result = await removeClientService.restoreClient(id)
+      if (result) {
+        res.send(`Client ${id} succesfully restored`)
+      } else {
+        next(new NotFoundError(`Client ${id} not found`))
+      }
+    } catch (error) {
+      next(error)
+    }
+  },
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/clients')
-  .put('/:id', 'updateClient')
-  .delete('/:id', 'removeClient')
+  .prefix('/api/clients/:id')
+  .put('', 'updateClient')
+  .delete('', 'removeClient')
+  .put('/restore', 'restoreClient')

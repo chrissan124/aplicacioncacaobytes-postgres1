@@ -2,12 +2,9 @@ const findId = require('../../idFinder')
 const Repo = require('../../repo')
 const statuses = require('../../status/statuses')
 const findAssociations = require('../findAssociations')
-/*PENDIENTES
--ver si separar lo de estatus en otra clase
--ver cómo hacer update solo de ciertos campos !!CHECK!!
-*/
+
 class SequelizeRepo extends Repo {
-  constructor(model, apiDb, baseStatus = false, relations = []) {
+  constructor(model, apiDb, baseStatus = false) {
     super()
     if (model && apiDb) {
       this.model = model
@@ -26,7 +23,14 @@ class SequelizeRepo extends Repo {
   }
 
   async getAll(
-    ops = { include: [], limit, offset, conditions: {}, paranoid: true }
+    ops = {
+      include: [],
+      limit: 100,
+      offset: 0,
+      conditions: {},
+      deleted: true,
+      order: [],
+    }
   ) {
     const associations = findAssociations(this.model, ops.include)
     const items = await this.model.findAll({
@@ -34,7 +38,8 @@ class SequelizeRepo extends Repo {
       limit: ops.limit,
       offset: ops.offset,
       where: ops.conditions,
-      paranoid: ops.paranoid,
+      paranoid: !ops.deleted,
+      order: ops.order,
     })
     return items
   }
@@ -69,7 +74,7 @@ class SequelizeRepo extends Repo {
       })
       const itemInstance = Array.isArray(result) ? result[1] : false
       this.setUpAssociations(itemInstance, item)
-      return itemInstance
+      return Array.isArray(itemInstance) ? itemInstance[0] : itemInstance
     }
     return false
   }
