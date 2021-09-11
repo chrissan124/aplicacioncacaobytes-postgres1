@@ -3,10 +3,10 @@ module.exports = class GetClientsService {
     this.clientRepository = clientRepository
   }
 
-  async getClients(paging = {}) {
+  async getClients(options = {}) {
     return await this.clientRepository.getAll({
       include: ['Address', 'Status'],
-      ...paging,
+      ...options,
     })
   }
 }

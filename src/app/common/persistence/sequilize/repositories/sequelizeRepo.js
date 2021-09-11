@@ -2,6 +2,7 @@ const findId = require('../../idFinder')
 const Repo = require('../../repo')
 const statuses = require('../../status/statuses')
 const findAssociations = require('../findAssociations')
+const prepareQuery = require('./prepareQuery')
 
 class SequelizeRepo extends Repo {
   constructor(model, apiDb, baseStatus = false) {
@@ -23,7 +24,7 @@ class SequelizeRepo extends Repo {
   }
 
   async getAll(
-    ops = {
+    options = {
       include: [],
       limit: 100,
       offset: 0,
@@ -32,7 +33,8 @@ class SequelizeRepo extends Repo {
       order: [],
     }
   ) {
-    const associations = findAssociations(this.model, ops.include)
+    const ops = prepareQuery(options)
+    const associations = findAssociations(this.model, options.include)
     const items = await this.model.findAll({
       include: associations,
       limit: ops.limit,
@@ -111,11 +113,7 @@ class SequelizeRepo extends Repo {
 
   async updateStatus(id, statusName) {
     if (this.baseStatus) {
-      const status = await this.apiDb.models.Status.findOne({
-        where: {
-          name: statusName,
-        },
-      })
+      const status = await this.findStatus(statusName)
       if (status) {
         const result = await this.model.update(
           { statusFk: status.statusId },
@@ -127,12 +125,32 @@ class SequelizeRepo extends Repo {
     return false
   }
 
+  async findStatus(name) {
+    const status = await this.apiDb.models.Status.findOne({
+      where: {
+        name: name,
+      },
+    })
+    return status
+  }
+
+  async getStatus(id) {
+    if (this.baseStatus) {
+      const entity = await this.getById(id, {
+        include: ['Status'],
+        paranoid: false,
+      })
+      return entity.Status
+    }
+    return false
+  }
   setUpAssociations(itemInstance, item) {
     //Setup associations if provided
     itemInstance &&
       this.associations.forEach(async (assoc) => {
         const associationData = item[assoc]
         const associationModel = this.apiDb.models[assoc]
+
         if (associationData && associationModel) {
           const idName = findId(associationModel.primaryKeys)
           const associationId = associationData[idName]
@@ -143,7 +161,8 @@ class SequelizeRepo extends Repo {
             })) &&
               (await this.model.update(
                 {
-                  [assoc.toLowerCase() + 'Fk']: associationId,
+                  [assoc.charAt(0).toLowerCase() + assoc.slice(1) + 'Fk']:
+                    associationId,
                 },
                 { where: { [this.primaryKey]: item[this.primaryKey] } }
               ))

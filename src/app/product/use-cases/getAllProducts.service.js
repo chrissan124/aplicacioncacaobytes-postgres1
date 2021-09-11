@@ -2,14 +2,14 @@ class getAllProductsService {
   constructor(productsRepository) {
     this.productsRepository = productsRepository
   }
-  async getAllProducts(pagination = { limit, offset }) {
+  async getAllProducts(options) {
     return this.productsRepository.getAll({
-      ...pagination,
+      ...options,
       include: ['Status'],
     })
   }
   async getProduct(id) {
-    return this.productsRepository.getById(id, { include: 'Status' })
+    return this.productsRepository.getById(id, { include: ['Status'] })
   }
 }
 module.exports = getAllProductsService

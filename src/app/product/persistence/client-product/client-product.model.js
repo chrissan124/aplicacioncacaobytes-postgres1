@@ -13,6 +13,8 @@ module.exports = function makeModel(apiDb) {
     },
     {
       paranoid: true,
+      timestamps: true,
+      updatedAt: false,
     }
   )
   return ClientProduct

@@ -1,36 +1,44 @@
-const paginateRequest = (req) => {
-  //Set pagination
-  const { size, page, deleted } = req.query
-  const limit = size ? +size : 20
-  const offset = page ? page * limit : 0
-
-  const conditions = setConditions(req)
-
-  const sort = setSort(req)
-
+const prepareQuery = (options = {}) => {
+  const pagination = paginateRequest(options)
+  const conditions = setConditions(options)
+  const sort = setSort(options)
   return {
-    limit,
-    offset,
-    deleted: deleted === 'true',
+    ...pagination,
     conditions,
     order: sort,
   }
 }
 
-function setConditions(req) {
+const paginateRequest = (options = {}) => {
+  //Set pagination
+  const { size, page, deleted } = options
+  const limit = size ? +size : 20
+  const offset = page ? page * limit : 0
+
+  return {
+    limit,
+    offset,
+    deleted: deleted === 'true',
+  }
+}
+
+function setConditions(options = {}) {
   //Set filter conditions
   const conditions = {}
-  const notConditions = ['page', 'size', 'deleted', 'sort']
-  for (let [key, value] of Object.entries(req.query)) {
+  const notConditions = ['page', 'size', 'deleted', 'sort', 'include']
+  for (let [key, value] of Object.entries(options)) {
     if (!notConditions.includes(key)) {
       const values =
-        typeof value === 'string' ? value.replace('-', ' ').split(',') : value
+        typeof value === 'string' && !(key.endsWith('Id') || key.endsWith('Fk'))
+          ? value.replace('-', ' ').split(',')
+          : value
 
       conditions[key] = values
     }
   }
   return conditions
 }
+
 /*
   order query structure:
   sort=<attribute>:<sort direction>
@@ -42,8 +50,8 @@ function setConditions(req) {
     -nl:nulls last
 
 */
-function setSort(req) {
-  const { sort } = req.query
+function setSort(options = {}) {
+  const { sort } = options
   const sortSet = []
   if (typeof sort === 'string') {
     const sortParams = sort.split(',')
@@ -71,4 +79,4 @@ function setSort(req) {
   return sortSet
 }
 
-module.exports = paginateRequest
+module.exports = prepareQuery

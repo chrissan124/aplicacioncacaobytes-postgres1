@@ -3,7 +3,7 @@ const validateId = require('../../common/domain/idValidator')
 const ValidationException = require('../../common/domain/validationException')
 
 const scheduleTypes = ['D', 'W', 'M', 'Y']
-module.exports = function contractTemplate(
+module.exports = function contractTemplateEntity(
   {
     name,
     paymentSchedule = 1,
