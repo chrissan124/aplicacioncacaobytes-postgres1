@@ -14,23 +14,27 @@ function configDb() {
       {
         dialect: 'postgres',
         host: process.env.DM_POSTGRES_DB_HOST,
+        logging:
+          process.env.DM_POSTGRES_DB_LOGGING === 'true' ? console.log : false,
       }
     )
     //Use global pattern to load all database models automatically
-    glob(`${resolve('src')}/**/*.model.js`, function (err, files) {
-      if (err) {
-        console.log('Error loading .model file', err)
-      } else {
-        files.forEach(async (file) => {
-          const modelFunction = require(file)
-          const model = modelFunction(apiDb)
-          await model.sync({ alter: true })
-        })
-      }
+
+    const files = glob.sync(`${resolve('src')}/**/*.model.js`)
+    files.forEach((file) => {
+      const modelFunction = require(file)
+      const model = modelFunction(apiDb)
+    })
+    //After all models are loaded, resolve associations between them
+    const setupFiles = glob.sync(`${resolve('src')}/**/*.model.setup.js`)
+    setupFiles.forEach((file) => {
+      const setupFunction = require(file)
+      setupFunction(apiDb)
     })
     return apiDb
   } catch (error) {
     console.log('Error connecting to database', error)
   }
 }
+
 module.exports = configDb()

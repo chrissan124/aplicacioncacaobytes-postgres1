@@ -15,7 +15,13 @@ function databaseErrors(err, req, res, next) {
       const [table, field, key] = err.original.constraint.split('_')
       err.statusCode = 400
       err.errorCode = 300
-      err.message = `This ${field} already exists in ${table}`
+      switch (key) {
+        case 'fkey':
+          err.message = `This ${field.split('Fk')[0]} reference is not valid`
+          break
+        default:
+          err.message = `This ${field} already exists in ${table}`
+      }
     }
   }
   next(err)

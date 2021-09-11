@@ -29,7 +29,10 @@ class App {
     app.use(bodyParser.json())
     app.use(cors())
     app.use(httpLogger)
+
     app.set('json spaces', 2)
+    app.set('json replacer', (k, v) => (v === null ? undefined : v))
+
     app.use(scopePerRequest(container))
     //Automatically load all controller routes
     app.use(

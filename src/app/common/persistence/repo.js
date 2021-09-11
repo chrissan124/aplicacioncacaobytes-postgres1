@@ -1,8 +1,8 @@
 class repo {
   getAll() {}
-  getById() {}
-  create() {}
-  update() {}
-  remove() {}
+  getById(id) {}
+  create(item) {}
+  update(item) {}
+  remove(id) {}
 }
 module.exports = repo
