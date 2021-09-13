@@ -68,6 +68,15 @@ class SequelizeRepo extends Repo {
     }
   }
 
+  async createList(items = []) {
+    const result = []
+    items.forEach(async (item) => {
+      const instance = await this.create(item)
+      instance && result.push(instance)
+    })
+    return result
+  }
+
   async update(item) {
     if (item) {
       const result = await this.model.update(item, {
@@ -140,7 +149,7 @@ class SequelizeRepo extends Repo {
         include: ['Status'],
         paranoid: false,
       })
-      return entity.Status
+      return entity.Status?.dataValues
     }
     return false
   }

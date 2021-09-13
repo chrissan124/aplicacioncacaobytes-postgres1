@@ -1,17 +1,20 @@
 const { numberBetween } = require('../../common/domain/betweenValidator')
 
-module.exports = function contractEntity({
-  signedDate,
-  startDate,
-  expirationDate,
-  totalPayment,
-  currentPayment = 0,
-  automaticInvoicing = true,
-  contractId,
-  clientProductId,
-  contractTemplateId,
-  statusId,
-}) {
+module.exports = function contractEntity(
+  {
+    signedDate,
+    startDate,
+    expirationDate,
+    totalPayment,
+    currentPayment = 0,
+    automaticInvoicing = true,
+    contractId,
+    clientProductId,
+    contractTemplateId,
+    statusId,
+  },
+  update
+) {
   signedDate = new Date(signedDate)
   startDate = new Date(startDate)
   expirationDate = new Date(expirationDate)
@@ -24,7 +27,8 @@ module.exports = function contractEntity({
     throw new Error('Expiration date must be after start date')
   }
 
-  numberBetween(totalPayment, 1, Infinity, 'contract payment')
+  ;(update && !totalPayment) ||
+    numberBetween(totalPayment, 1, Infinity, 'contract payment')
 
   return Object.freeze({
     signedDate: new Date(signedDate),

@@ -4,5 +4,6 @@ class repo {
   create(item) {}
   update(item) {}
   remove(id) {}
+  createList(items) {}
 }
 module.exports = repo

@@ -1,7 +1,11 @@
 const { createController } = require('awilix-router-core')
 const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
 
-const consultControllers = (getContractsService, updateContractService) => ({
+const consultControllers = (
+  getContractsService,
+  updateContractService,
+  startContractService
+) => ({
   getContractsByClient: async (req, res, next) => {
     try {
       const { id } = req.params
@@ -16,10 +20,24 @@ const consultControllers = (getContractsService, updateContractService) => ({
   },
   updateContract: async (req, res, next) => {
     try {
-      const paramId = req.params.id
+      const paramId = req.params.contractId
       const bodyId = req.body.contractId
       if (paramId === bodyId) {
         const result = await updateContractService.updateContract(req.body)
+        res.send(result)
+      } else {
+        next(new UpdateError(paramId, bodyId))
+      }
+    } catch (error) {
+      next(error)
+    }
+  },
+  startContract: async (req, res, next) => {
+    try {
+      const paramId = req.params.contractId
+      const bodyId = req.body.contractId
+      if (paramId === bodyId) {
+        const result = await startContractService.startContract(req.body)
         res.send(result)
       } else {
         next(new UpdateError(paramId, bodyId))
@@ -33,4 +51,5 @@ const consultControllers = (getContractsService, updateContractService) => ({
 module.exports = createController(consultControllers)
   .prefix('/api/clients/:id/contracts')
   .get('', 'getContractsByClient')
-  .put('/:id', 'updateContract')
+  .put('/:contractId', 'updateContract')
+  .put('/:contractId/started', 'startContract')
