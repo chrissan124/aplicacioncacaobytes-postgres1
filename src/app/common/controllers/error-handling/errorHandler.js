@@ -32,7 +32,10 @@ function returnError(err, req, res, next) {
   const errorCode = err.errorCode || 404
   res.status(statusCode).send({
     statusCode,
-    error: err.message,
+    error:
+      statusCode === 500
+        ? 'An unexpected server error has occurred'
+        : err.message,
     errorCode,
   })
 }

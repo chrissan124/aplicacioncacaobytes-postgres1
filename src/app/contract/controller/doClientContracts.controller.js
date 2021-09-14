@@ -18,6 +18,18 @@ const consultControllers = (
       next(error)
     }
   },
+  getContractById: async (req, res, next) => {
+    try {
+      const { contractId } = req.params
+      const result = await getContractsService.getContract(
+        contractId,
+        req.query
+      )
+      res.send(result)
+    } catch (error) {
+      next(error)
+    }
+  },
   updateContract: async (req, res, next) => {
     try {
       const paramId = req.params.contractId
@@ -51,5 +63,6 @@ const consultControllers = (
 module.exports = createController(consultControllers)
   .prefix('/api/clients/:id/contracts')
   .get('', 'getContractsByClient')
+  .get('/:contractId', 'getContractById')
   .put('/:contractId', 'updateContract')
   .put('/:contractId/started', 'startContract')

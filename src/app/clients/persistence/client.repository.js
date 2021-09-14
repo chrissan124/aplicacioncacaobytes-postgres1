@@ -1,4 +1,4 @@
-const SequelizeRepo = require('../../common/persistence/sequilize/repositories/sequelizeRepo')
+const SequelizeRepo = require('../../common/persistence/sequilize/sequelizeRepo')
 const statuses = require('../../common/persistence/status/statuses')
 
 class ClientRepository extends SequelizeRepo {

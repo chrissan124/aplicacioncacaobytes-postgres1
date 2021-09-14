@@ -1,4 +1,4 @@
-const SequelizeRepo = require('../../common/persistence/sequilize/repositories/sequelizeRepo')
+const SequelizeRepo = require('../../common/persistence/sequilize/sequelizeRepo')
 
 module.exports = class categoriesRepository extends SequelizeRepo {
   constructor(apiDb) {

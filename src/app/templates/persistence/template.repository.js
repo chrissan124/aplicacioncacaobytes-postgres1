@@ -1,4 +1,4 @@
-const SequelizeRepo = require('../../common/persistence/sequilize/repositories/sequelizeRepo')
+const SequelizeRepo = require('../../common/persistence/sequilize/sequelizeRepo')
 
 class TemplateRepository extends SequelizeRepo {
   constructor(apiDb) {

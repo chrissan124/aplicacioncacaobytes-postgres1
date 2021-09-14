@@ -5,9 +5,10 @@ const setInvoicing = require('../../invoice/domain/setInvoicing')
 const contractEntity = require('../domain/contractEntity')
 
 class startContractService {
-  constructor(contractRepository, templateRepository) {
+  constructor(contractRepository, templateRepository, invoiceRepository) {
     this.contractRepository = contractRepository
     this.contTempRepo = templateRepository
+    this.invoiceRepository = invoiceRepository
   }
 
   async startContract(contract) {
@@ -29,19 +30,26 @@ class startContractService {
       fullContract.contractTemplateFk
     )
 
-    return setInvoicing(
+    const invoices = setInvoicing(
       fullContract,
       template,
       contract.invoiceAmounts,
       contract.deadlineDays
-    ) //await this.contractRepository.updateStatus(statuses.APPROVED)
+    )
+
+    await this.invoiceRepository.createList(invoices)
+
+    return await this.contractRepository.updateStatus(
+      fullContract.contractId,
+      statuses.APPROVED
+    )
   }
 
   async checkStatus(contract) {
     const status = await this.contractRepository.getStatus(contract.contractId)
     if (status.name !== statuses.DRAFT) {
       throw new ValidationException(
-        `${status.name} status. Only drafted contracts can be modified`
+        `${status.name} status. Only DRAFT contracts can be started`
       )
     }
     return status

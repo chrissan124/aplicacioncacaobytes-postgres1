@@ -18,7 +18,6 @@ class GetContractsService {
       },
       'clientProductId'
     )
-    console.log(validEntries)
     return validEntries.length
       ? await this.contractRepo.getAll({
           clientProductFk: validEntries,
@@ -26,6 +25,12 @@ class GetContractsService {
           ...options,
         })
       : []
+  }
+  async getContract(contractId, options) {
+    return await this.contractRepo.getById(contractId, {
+      include: ['Status', 'ContractTemplate'],
+      ...options,
+    })
   }
 }
 module.exports = GetContractsService

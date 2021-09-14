@@ -1,7 +1,7 @@
-const findId = require('../../idFinder')
-const Repo = require('../../repo')
-const statuses = require('../../status/statuses')
-const findAssociations = require('../findAssociations')
+const findId = require('../idFinder')
+const Repo = require('../repo')
+const statuses = require('../status/statuses')
+const findAssociations = require('./findAssociations')
 const prepareQuery = require('./prepareQuery')
 
 class SequelizeRepo extends Repo {
@@ -59,7 +59,7 @@ class SequelizeRepo extends Repo {
     if (item) {
       const itemInstance = await this.model.create(item)
       this.setUpAssociations(itemInstance, item)
-      if (this.baseStatus) {
+      if (this.baseStatus && !itemInstance.statusFk) {
         await this.updateStatus(itemInstance[this.primaryKey], this.baseStatus)
       }
       return itemInstance
@@ -120,13 +120,20 @@ class SequelizeRepo extends Repo {
     return false
   }
 
-  async updateStatus(id, statusName) {
+  async updateStatus(id, statusName, updateKey, conditions = {}) {
     if (this.baseStatus) {
       const status = await this.findStatus(statusName)
       if (status) {
         const result = await this.model.update(
           { statusFk: status.statusId },
-          { where: { [this.primaryKey]: id }, paranoid: false, returning: true }
+          {
+            where: {
+              [updateKey ? updateKey : this.primaryKey]: id,
+              ...conditions,
+            },
+            paranoid: false,
+            returning: true,
+          }
         )
         return Array.isArray(result) ? result[1] : false
       }
@@ -149,7 +156,7 @@ class SequelizeRepo extends Repo {
         include: ['Status'],
         paranoid: false,
       })
-      return entity.Status?.dataValues
+      return entity ? entity.Status?.dataValues : false
     }
     return false
   }

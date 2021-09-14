@@ -18,8 +18,9 @@ function setInvoicing(
   for (let invoiceNum = 0; invoiceNum < intervalNumber; invoiceNum++) {
     startDate = startDate.plus({ [intervalUnit]: 1 })
     const invoice = {
+      contractFk: contract.contractId,
       startDate: startDate.toSQLDate(),
-      endDate: startDate.plus({ days: deadlineDays }).toSQLDate(),
+      deadline: startDate.plus({ days: deadlineDays }).toSQLDate(),
       amount: invoiceAmounts[invoiceNum]
         ? invoiceAmounts[invoiceNum]
         : contract.totalPayment / intervalNumber,
