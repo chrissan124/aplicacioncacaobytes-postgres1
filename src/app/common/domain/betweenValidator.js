@@ -8,7 +8,7 @@ function stringBetween(arg, floor = 0, ceil = Infinity, kind = 'value') {
     }
   }
   throw new ValidationException(
-    `${kind} "${arg}" must be between ${floor} and ${ceil} characters long`
+    `${kind} '${arg}' must be between ${floor} and ${ceil} characters long`
   )
 }
 
@@ -19,7 +19,9 @@ function numberBetween(arg, floor = 0, ceil = Infinity, kind = 'value') {
     }
   }
   throw new ValidationException(
-    `${kind} "${arg}" must be between ${floor} and ${ceil}`
+    `${kind} '${arg}' must be between ${floor} and ${
+      ceil === Infinity ? 'beyond' : ceil
+    }`
   )
 }
 

@@ -14,6 +14,10 @@ module.exports = function makeModel(apiDb) {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    overdue: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     invoiceId: {
       type: DataTypes.UUID,
       allowNull: false,

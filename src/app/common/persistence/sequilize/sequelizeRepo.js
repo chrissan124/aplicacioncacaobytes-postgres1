@@ -70,10 +70,10 @@ class SequelizeRepo extends Repo {
 
   async createList(items = []) {
     const result = []
-    items.forEach(async (item) => {
+    for (const item of items) {
       const instance = await this.create(item)
-      instance && result.push(instance)
-    })
+      if (instance) result.push(instance.dataValues)
+    }
     return result
   }
 

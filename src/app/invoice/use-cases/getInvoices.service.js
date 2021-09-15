@@ -2,8 +2,8 @@ class getInvoicesService {
   constructor(invoiceRepository) {
     this.invoiceRepository = invoiceRepository
   }
-  getInvoices(contractId, options) {
-    return this.invoiceRepository.getAll({
+  async getInvoices(contractId, options) {
+    return await this.invoiceRepository.getAll({
       contractFk: contractId,
       include: ['Status'],
       ...options,

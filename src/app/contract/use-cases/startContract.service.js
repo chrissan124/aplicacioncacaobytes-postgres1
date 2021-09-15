@@ -29,15 +29,15 @@ class startContractService {
     const template = await this.contTempRepo.getById(
       fullContract.contractTemplateFk
     )
+    if (fullContract.automaticInvoice) {
+      const invoices = setInvoicing(
+        fullContract,
+        template,
+        contract.deadlineDays
+      )
 
-    const invoices = setInvoicing(
-      fullContract,
-      template,
-      contract.invoiceAmounts,
-      contract.deadlineDays
-    )
-
-    await this.invoiceRepository.createList(invoices)
+      await this.invoiceRepository.createList(invoices)
+    }
 
     return await this.contractRepository.updateStatus(
       fullContract.contractId,
