@@ -13,7 +13,6 @@ function configDb() {
       process.env.DM_POSTGRES_DB_PASS,
       {
         dialect: 'postgres',
-        host: process.env.DM_POSTGRES_DB_HOST,
         logging:
           process.env.DM_POSTGRES_DB_LOGGING === 'true' ? console.log : false,
       }

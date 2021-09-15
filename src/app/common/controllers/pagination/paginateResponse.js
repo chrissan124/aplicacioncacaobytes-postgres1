@@ -3,9 +3,9 @@ dotenv.config()
 const paginateResponse = (req, res, data = []) => {
   let { page, size } = req.query
   page = parseInt(page || 0)
-  size = parseInt(size || 20)
+  size = !page && !size ? undefined : parseInt(size || 20)
   const totalCount = data.length
-  const lastPage = Math.floor(totalCount / size)
+  const lastPage = !size ? 0 : Math.floor(totalCount / size)
   const nextPage = page < lastPage ? page + 1 : null
   if (nextPage) {
     res.set(

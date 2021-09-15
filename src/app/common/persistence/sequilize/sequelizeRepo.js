@@ -120,6 +120,18 @@ class SequelizeRepo extends Repo {
     return false
   }
 
+  async doOperation(options = { operation: '', attribute, conditions: {} }) {
+    const operation = options.operation.toLowerCase()
+    if (['max', 'min', 'sum', 'count'].includes(operation)) {
+      if (operation === 'count')
+        return await this.model[operation]({ where: options.conditions })
+      return await this.model[operation](options.attribute, {
+        where: options.conditions,
+      })
+    }
+    return false
+  }
+
   async updateStatus(id, statusName, updateKey, conditions = {}) {
     if (this.baseStatus) {
       const status = await this.findStatus(statusName)

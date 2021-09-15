@@ -12,7 +12,7 @@ const prepareQuery = (options = {}) => {
 const paginateRequest = (options = {}) => {
   //Set pagination
   const { size, page, deleted } = options
-  const limit = size ? +size : 20
+  const limit = size ? +size : undefined
   const offset = page ? page * limit : 0
 
   return {
@@ -29,7 +29,8 @@ function setConditions(options = {}) {
   for (let [key, value] of Object.entries(options)) {
     if (!notConditions.includes(key)) {
       const values =
-        typeof value === 'string' && !(key.endsWith('Id') || key.endsWith('Fk'))
+        typeof value === 'string' &&
+        !(key.endsWith('Id') || key.endsWith('Fk') || key.endsWith('$'))
           ? value.replace('-', ' ').split(',')
           : value
 

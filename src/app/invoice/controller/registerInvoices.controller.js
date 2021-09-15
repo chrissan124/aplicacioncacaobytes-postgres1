@@ -1,5 +1,4 @@
 const { createController } = require('awilix-router-core')
-const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
 
 const registerControllers = (createInvoiceService, updateInvoiceService) => ({
   createInvoices: async (req, res, next) => {

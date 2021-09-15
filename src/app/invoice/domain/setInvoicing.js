@@ -12,7 +12,7 @@ function setInvoicing(contract, contractTemplate, deadlineDays = 15) {
     deadlineDays,
     2,
     getMaxDeadline(contractTemplate.scheduleType, startDate) *
-      contractTemplate.paymentSchedule,
+      contractTemplate.paymentSchedule-1,
     'deadline interval'
   )
 

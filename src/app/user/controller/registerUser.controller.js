@@ -1,7 +1,7 @@
 const { createController } = require('awilix-router-core')
 
 const registerControllers = (registerUserService) => ({
-  regiserUser: async (req, res, next) => {
+  registerUser: async (req, res, next) => {
     try {
       const result = await registerUserService.registerUser(req.body)
       res.send(result)
