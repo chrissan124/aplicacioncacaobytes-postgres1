@@ -12,6 +12,10 @@ module.exports = function makeModel(apiDb) {
       description: {
         type: DataTypes.STRING(200),
       },
+      deletable: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       roleId: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -20,7 +24,6 @@ module.exports = function makeModel(apiDb) {
       },
     },
     {
-      paranoid: true,
       indexes: [{ unique: true, fields: ['name'] }],
     }
   )

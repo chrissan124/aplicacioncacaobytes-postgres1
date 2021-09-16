@@ -31,6 +31,8 @@ class SequelizeRepo extends Repo {
       conditions: {},
       deleted: true,
       order: [],
+      attr,
+      excl,
     }
   ) {
     const ops = prepareQuery(options)
@@ -39,6 +41,10 @@ class SequelizeRepo extends Repo {
       include: associations,
       limit: ops.limit,
       offset: ops.offset,
+      attributes: {
+        include: ops.attributes,
+        exclude: ops.exclude,
+      },
       where: ops.conditions,
       paranoid: !ops.deleted,
       order: ops.order,

@@ -21,6 +21,7 @@ module.exports = function makeModel(apiDb) {
     },
     {
       timestamps: false,
+      indexes: [{ unique: true, fields: ['name', 'type'] }],
     }
   )
   return Permission

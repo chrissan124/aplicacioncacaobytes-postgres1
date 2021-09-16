@@ -11,6 +11,8 @@ module.exports = class getReceiptsService {
     const receipts = await this.receiptRepository.getAll({
       include: ['Status', 'Invoice'],
       '$Invoice.contractFk$': contractId,
+      attr: ['amount', 'receiptId', 'concept', 'paymentMethod'],
+      exclude: ['Invoice'],
       ...options,
     })
     return receipts.map((receipt) => {

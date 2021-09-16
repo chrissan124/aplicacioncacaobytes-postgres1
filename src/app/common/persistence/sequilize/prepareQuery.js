@@ -6,6 +6,8 @@ const prepareQuery = (options = {}) => {
     ...pagination,
     conditions,
     order: sort,
+    ...(options.attr && { attributes: options.attr }),
+    ...(options.exclude && { exclude: options.exclude }),
   }
 }
 
@@ -25,7 +27,15 @@ const paginateRequest = (options = {}) => {
 function setConditions(options = {}) {
   //Set filter conditions
   const conditions = {}
-  const notConditions = ['page', 'size', 'deleted', 'sort', 'include']
+  const notConditions = [
+    'page',
+    'size',
+    'deleted',
+    'sort',
+    'include',
+    'exclude',
+    'attr',
+  ]
   for (let [key, value] of Object.entries(options)) {
     if (!notConditions.includes(key)) {
       const values =
