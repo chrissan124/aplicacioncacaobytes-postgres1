@@ -1,4 +1,4 @@
-const generatePassword = require('../../common/authentication/passwordGenerator')
+const generatePassword = require('../../common/authentication/use-cases/passwordGenerator')
 const {
   encryptPassword,
 } = require('../../common/controllers/encryption/encryptor')

@@ -1,7 +1,7 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const encryptor = require('../controllers/encryption/encryptor')
-const logger = require('../controllers/logger/logger')
+const encryptor = require('../../controllers/encryption/encryptor')
+const logger = require('../../controllers/logger/logger')
 
 /*
   Create token after authentication, with encrypted payload

@@ -6,6 +6,8 @@ const prepareQuery = (options = {}) => {
     ...pagination,
     conditions,
     order: sort,
+    raw: options.raw,
+    nest: options.raw && true,
     ...(options.attr && { attributes: options.attr }),
     ...(options.exclude && { exclude: options.exclude }),
   }

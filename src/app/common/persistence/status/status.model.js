@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize')
 const logger = require('../../controllers/logger/logger')
 const statuses = require('./statuses')
-//PENDING: add status FK
 
 function makeModel(apiDb) {
   const Status = apiDb.define(
@@ -10,7 +9,6 @@ function makeModel(apiDb) {
       name: {
         type: DataTypes.STRING(20),
         allowNull: false,
-        //unique: true,
       },
       statusId: {
         type: DataTypes.UUID,

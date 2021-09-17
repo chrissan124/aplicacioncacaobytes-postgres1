@@ -1,6 +1,7 @@
 class repo {
-  getAll() {}
+  getAll(options) {}
   getById(id) {}
+  getOne(options) {}
   create(item) {}
   update(item) {}
   remove(id) {}

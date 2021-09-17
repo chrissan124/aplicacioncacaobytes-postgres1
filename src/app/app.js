@@ -11,6 +11,8 @@ const {
 } = require('./common/controllers/error-handling/errorHandler')
 const httpLogger = require('./common/controllers/logger/httpLogger')
 const logger = require('./common/controllers/logger/logger')
+const validateToken = require('./common/authentication/middleware/authenticateUser')
+const unless = require('./common/authentication/middleware/unless')
 
 class App {
   constructor(appConfig) {
@@ -32,6 +34,17 @@ class App {
 
     app.set('json spaces', 2)
     app.set('json replacer', (k, v) => (v === null ? undefined : v))
+
+    //authentication middleware
+    app.use(
+      unless(
+        validateToken(
+          container.resolve('verifyUserService'),
+          container.resolve('checkBlackListService')
+        ),
+        '/api/auth/access'
+      )
+    )
 
     app.use(scopePerRequest(container))
     //Automatically load all controller routes

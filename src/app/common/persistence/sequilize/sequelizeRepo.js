@@ -45,6 +45,7 @@ class SequelizeRepo extends Repo {
         include: ops.attributes,
         exclude: ops.exclude,
       },
+      raw: ops.raw,
       where: ops.conditions,
       paranoid: !ops.deleted,
       order: ops.order,
@@ -52,10 +53,19 @@ class SequelizeRepo extends Repo {
     return items
   }
 
-  async getById(id, ops = { include: [], paranoid: true }) {
+  async getById(
+    id,
+    ops = { include: [], paranoid: true, attr: [], exclude: [] }
+  ) {
     const associations = findAssociations(this.model, ops.include)
     const item = this.model.findByPk(id, {
       include: associations,
+      attributes: {
+        include: ops.attr,
+        exclude: ops.exclude,
+      },
+      raw: ops.raw,
+      nest: ops.raw && true,
       paranoid: ops.paranoid,
     })
     return item
