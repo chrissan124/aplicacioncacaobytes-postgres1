@@ -24,5 +24,5 @@ const consultControllers = (getTemplatesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/contract-templates')
+  .prefix('/contract-templates')
   .get('', 'getTemplates')

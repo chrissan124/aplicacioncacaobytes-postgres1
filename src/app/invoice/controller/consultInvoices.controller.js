@@ -17,5 +17,5 @@ const consultControllers = (getInvoicesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/contracts/:contractId/invoices')
+  .prefix('/contracts/:contractId/invoices')
   .get('', 'getInvoices')

@@ -17,5 +17,5 @@ const registerControllers = (createContractService) => ({
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/clients/:clientId/contracts/products/:prodId')
+  .prefix('/clients/:clientId/contracts/products/:prodId')
   .post('', 'createContract')

@@ -80,7 +80,7 @@ const API = (
 })
 
 module.exports = createController(API)
-  .prefix('/api/products')
+  .prefix('/products')
   .post('', 'registerProduct')
   .get('', 'getAllProducts')
   .get('/:id', 'getProduct')

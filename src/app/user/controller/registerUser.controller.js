@@ -12,5 +12,5 @@ const registerControllers = (registerUserService) => ({
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/users')
+  .prefix('/users')
   .post('', 'registerUser')

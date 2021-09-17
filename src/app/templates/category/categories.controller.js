@@ -13,5 +13,5 @@ const consultControllers = (getCategoriesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/templates/categories')
+  .prefix('/templates/categories')
   .get('', 'getAllCategories')

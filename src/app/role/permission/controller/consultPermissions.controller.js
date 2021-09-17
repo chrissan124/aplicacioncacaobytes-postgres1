@@ -14,5 +14,5 @@ const consultControllers = (getPermissionsService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/perms')
+  .prefix('/perms')
   .get('', 'getPerms')

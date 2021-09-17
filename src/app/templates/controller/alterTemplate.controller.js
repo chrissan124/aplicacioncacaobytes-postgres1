@@ -33,6 +33,6 @@ const alterControllers = (updateTemplateService, removeTemplateService) => ({
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/contract-templates/:id')
+  .prefix('/contract-templates/:id')
   .put('', 'updateTemplate')
   .delete('', 'removeTemplate')

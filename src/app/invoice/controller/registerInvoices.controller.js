@@ -26,6 +26,6 @@ const registerControllers = (createInvoiceService, updateInvoiceService) => ({
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/contracts/:contractId/invoices')
+  .prefix('/contracts/:contractId/invoices')
   .post('', 'createInvoices')
   .put('', 'updateInvoices')

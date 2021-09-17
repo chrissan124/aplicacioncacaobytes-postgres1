@@ -64,7 +64,7 @@ const consultControllers = (
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/contracts')
+  .prefix('/contracts')
   .get('', 'getAllContracts')
   .get('/:id', 'getContractById')
   .put('/:id', 'updateContract')

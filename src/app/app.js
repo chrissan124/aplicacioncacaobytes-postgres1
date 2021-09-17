@@ -42,7 +42,7 @@ class App {
           container.resolve('verifyUserService'),
           container.resolve('checkBlackListService')
         ),
-        '/api/auth/access'
+        '/api/v1/auth/access'
       )
     )
 
@@ -52,6 +52,7 @@ class App {
 
     //Automatically load all controller routes
     app.use(
+      '/api/v1/',
       loadControllers(`${resolve('src')}/**/*.controller.js`, {
         cwd: __dirname,
       })

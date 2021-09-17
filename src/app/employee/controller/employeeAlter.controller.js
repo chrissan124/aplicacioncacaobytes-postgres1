@@ -46,7 +46,7 @@ const alterControllers = (updateEmployeeService, removeEmployeeService) => ({
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/employees/:id')
+  .prefix('/employees/:id')
   .put('', 'updateEmployee')
   .delete('', 'removeEmployee')
   .put('/restore', 'restoreEmployee')

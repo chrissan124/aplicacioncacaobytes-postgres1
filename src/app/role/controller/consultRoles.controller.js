@@ -32,7 +32,7 @@ const consultControllers = (getRolesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/roles')
+  .prefix('/roles')
   .get('', 'getRoles')
   .get('/perms', 'getRolesPermissions')
   .get('/:id', 'getRole')

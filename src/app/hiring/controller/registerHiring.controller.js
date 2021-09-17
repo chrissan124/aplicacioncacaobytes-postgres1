@@ -45,7 +45,7 @@ const registerControllers = (
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/employees/:id/hirings')
+  .prefix('/employees/:id/hirings')
   .post('', 'createHiring')
   .get('', 'getHirings')
   .put('/:hiringId', 'updateHiring')

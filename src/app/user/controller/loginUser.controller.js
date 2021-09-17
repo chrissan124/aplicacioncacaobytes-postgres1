@@ -25,6 +25,6 @@ const loginController = (loginUserService, logoutUserService) => ({
 })
 
 module.exports = createController(loginController)
-  .prefix('/api/auth')
+  .prefix('/auth')
   .all('/access', 'loginUser')
   .all('/logout', 'logoutUser')

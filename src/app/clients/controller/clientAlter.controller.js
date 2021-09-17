@@ -46,7 +46,7 @@ const alterControllers = (updateClientService, removeClientService) => ({
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/clients/:id')
+  .prefix('/clients/:id')
   .put('', 'updateClient')
   .delete('', 'removeClient')
   .put('/restore', 'restoreClient')

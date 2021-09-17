@@ -32,7 +32,7 @@ const registerControllers = (
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/roles')
+  .prefix('/roles')
   .post('', 'createRole')
   .put('/:id', 'updateRole')
   .delete('/:id', 'deleteRole')

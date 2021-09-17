@@ -12,5 +12,5 @@ const consultControllers = (getStatusesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/statuses')
+  .prefix('/statuses')
   .get('', 'getStatuses')
