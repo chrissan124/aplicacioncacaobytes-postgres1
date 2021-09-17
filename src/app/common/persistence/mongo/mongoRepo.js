@@ -1,4 +1,5 @@
 const repo = require('../repo')
+const prepareConditions = require('./prepareConditions')
 
 module.exports = class mongoRepo extends repo {
   constructor(nosqlDb, collection) {
@@ -34,5 +35,20 @@ module.exports = class mongoRepo extends repo {
   async create(documents) {
     const result = await this.collection.create(documents)
     return result
+  }
+
+  async remove(id) {
+    return await this.collection.deleteOne({ _id: id })
+  }
+
+  async removeMany(conditions = {}) {
+    conditions = prepareConditions(conditions)
+    const deleted = await this.collection.deleteMany(conditions)
+    return deleted.deletedCount
+  }
+  async update(item) {
+    return await this.collection
+      .findOneAndUpdateOne({ _id: item.id }, item, { new: true })
+      .exec()
   }
 }

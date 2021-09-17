@@ -13,6 +13,7 @@ const httpLogger = require('./common/controllers/logger/httpLogger')
 const logger = require('./common/controllers/logger/logger')
 const validateToken = require('./common/authentication/middleware/authenticateUser')
 const unless = require('./common/authentication/middleware/unless')
+const bootstrapJobs = require('./common/jobs')
 
 class App {
   constructor(appConfig) {
@@ -34,7 +35,6 @@ class App {
 
     app.set('json spaces', 2)
     app.set('json replacer', (k, v) => (v === null ? undefined : v))
-
     //authentication middleware
     app.use(
       unless(
@@ -47,6 +47,9 @@ class App {
     )
 
     app.use(scopePerRequest(container))
+
+    bootstrapJobs(container)
+
     //Automatically load all controller routes
     app.use(
       loadControllers(`${resolve('src')}/**/*.controller.js`, {
