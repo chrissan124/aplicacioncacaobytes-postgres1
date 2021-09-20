@@ -29,8 +29,10 @@ module.exports = class updateReceiptService {
       statuses.APPROVED
     )
     const contract = await this.contractRepository.getById(invoice.contractFk)
-    contract.curentPayment += receipt.amount
-    await this.contractRepository.update(contract)
+    await this.contractRepository.update({
+      contractId: contract.contractId,
+      currentPayment: contract.currentPayment + receipt.amount,
+    })
     const newInvoiceStatus =
       receipt.amount === invoice.amount ? statuses.PAID : statuses.PARTIAL
 

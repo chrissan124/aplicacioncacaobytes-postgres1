@@ -1,6 +1,6 @@
 const { DateTime, Interval } = require('luxon')
 const { numberBetween } = require('../../common/domain/betweenValidator')
-const parseScheduleType = require('../../templates/domain/parsePaymentSchedule')
+const parseScheduleType = require('../../templates/contract-template/domain/parsePaymentSchedule')
 const getMaxDeadline = require('./getMaxDeadline')
 
 function setInvoicing(contract, contractTemplate, deadlineDays = 15) {

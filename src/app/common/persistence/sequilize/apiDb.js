@@ -8,13 +8,13 @@ function configDb() {
   try {
     //Create connection pool to db
     const apiDb = new Sequilize(
-      process.env.DM_POSTGRES_DB_NAME,
-      process.env.DM_POSTGRES_DB_USER,
-      process.env.DM_POSTGRES_DB_PASS,
+      process.env.POSTGRES_DB_NAME,
+      process.env.POSTGRES_DB_USER,
+      process.env.POSTGRES_DB_PASS,
       {
         dialect: 'postgres',
         logging:
-          process.env.DM_POSTGRES_DB_LOGGING === 'true' ? console.log : false,
+          process.env.POSTGRES_DB_LOGGING === 'true' ? console.log : false,
       }
     )
     //Use global pattern to load all database models automatically

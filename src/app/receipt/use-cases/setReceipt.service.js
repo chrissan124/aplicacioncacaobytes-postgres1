@@ -2,9 +2,16 @@ const statuses = require('../../common/persistence/status/statuses')
 const receiptEntity = require('../domain/receiptEntity')
 
 module.exports = class setReceiptService {
-  constructor(receiptRepository, invoiceRepository) {
+  constructor(
+    receiptRepository,
+    invoiceRepository,
+    createFileReceiptService,
+    bus
+  ) {
     this.receiptRepository = receiptRepository
     this.invoiceRepository = invoiceRepository
+    this.createFileReceiptService = createFileReceiptService
+    this.bus = bus
   }
 
   async setReceipt(receipt, invoiceId) {
@@ -12,7 +19,7 @@ module.exports = class setReceiptService {
       include: ['Status'],
     })
     const validReceipt = receiptEntity(receipt, invoice)
-    const result = this.receiptRepository.create({
+    const result = await this.receiptRepository.create({
       ...validReceipt,
       invoiceFk: invoiceId,
     })
@@ -20,6 +27,14 @@ module.exports = class setReceiptService {
       invoice.invoiceId,
       statuses.PENDING_REVIEW
     )
+    const fileReceipt = await this.createFileReceiptService.createFileReceipt(
+      result.receiptId
+    )
+    fileReceipt &&
+      this.bus.emit('fileReceiptCreated', {
+        fileReceiptId: fileReceipt.fileReceiptId,
+        ...receipt,
+      })
     return result
   }
 }

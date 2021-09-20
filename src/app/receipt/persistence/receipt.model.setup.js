@@ -1,5 +1,5 @@
 module.exports = function setupModel(db) {
-  const { Receipt, Invoice, Status } = db.models
+  const { Receipt, Invoice, Status, FileReceipt } = db.models
 
   Invoice.hasMany(Receipt, {
     foreignKey: 'invoiceFk',
@@ -15,5 +15,13 @@ module.exports = function setupModel(db) {
 
   Receipt.belongsTo(Status, {
     foreignKey: 'statusFk',
+  })
+
+  FileReceipt.belongsTo(Receipt, {
+    foreignKey: 'receiptFk',
+  })
+
+  Receipt.hasMany(FileReceipt, {
+    foreignKey: 'receiptFk',
   })
 }

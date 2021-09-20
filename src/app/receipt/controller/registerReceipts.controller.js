@@ -1,21 +1,11 @@
 const { createController } = require('awilix-router-core')
+const upload = require('../../files/config/files.config')
 
-const registerControllers = (setReceiptService, updateReceiptService) => ({
+const registerControllers = (setReceiptService) => ({
   createReceipt: async (req, res, next) => {
     try {
       const result = await setReceiptService.setReceipt(
-        req.body,
-        req.params.invoiceId
-      )
-      res.send(result)
-    } catch (error) {
-      next(error)
-    }
-  },
-  updateReceipt: async (req, res, next) => {
-    try {
-      const result = await updateReceiptService.updateReceipt(
-        { ...req.body, receiptId: req.params.receiptId },
+        { ...req.body, ...req.file },
         req.params.invoiceId
       )
       res.send(result)
@@ -28,4 +18,4 @@ const registerControllers = (setReceiptService, updateReceiptService) => ({
 module.exports = createController(registerControllers)
   .prefix('/contracts/:contractId/invoices/:invoiceId/receipts')
   .post('', 'createReceipt')
-  .put('/:receiptId', 'updateReceipt')
+  .before(upload.single('receipt'))

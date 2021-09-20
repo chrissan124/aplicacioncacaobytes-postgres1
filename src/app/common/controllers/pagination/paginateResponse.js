@@ -10,7 +10,7 @@ const paginateResponse = (req, res, data = []) => {
   if (nextPage) {
     res.set(
       'Link',
-      process.env.DM_API_ROOT +
+      process.env.API_ROOT +
         req.path.substring(1) +
         `?page=${nextPage}&size=${size}`
     )

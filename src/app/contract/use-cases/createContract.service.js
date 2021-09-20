@@ -1,4 +1,4 @@
-const contractTemplateEntity = require('../../templates/domain/contractTemplateEntity')
+const contractTemplateEntity = require('../../templates/contract-template/domain/contractTemplateEntity')
 const contractEntity = require('../domain/contractEntity')
 
 class createContractService {

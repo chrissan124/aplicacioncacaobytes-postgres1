@@ -13,6 +13,9 @@ module.exports = class mongoRepo extends repo {
     }
     this.connection = nosqlDb
     this.collection = this.connection.models[collection]
+    if (!this.collection) {
+      throw new Error(`collection [${collection}] couldn't be found`)
+    }
   }
 
   async getAll(options = { attr: '', conditions: {} }) {
@@ -22,8 +25,8 @@ module.exports = class mongoRepo extends repo {
     return items
   }
 
-  async getById(id, attr = '') {
-    return await this.collection.findById(id, attr)
+  async getById(id, options = { attr: '' }) {
+    return await this.collection.findById(id, options.attr)
   }
 
   async getOne(options = { attr: '', conditions: {} }) {

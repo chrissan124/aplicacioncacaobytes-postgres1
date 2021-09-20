@@ -11,6 +11,7 @@ const App = require('./app.js')
 const apiDb = require('./common/persistence/sequilize/apiDb.js')
 const { resolve } = require('path')
 const nosqlDbConfig = require('./common/persistence/mongo/nosqlDb.config.js')
+const bus = require('./common/events/eventBus.js')
 class Bootstrap {
   constructor() {}
 
@@ -48,7 +49,7 @@ class Bootstrap {
         },
       }
     )
-
+    container.register({ bus: asValue(bus(container)) })
     return container
   }
 }

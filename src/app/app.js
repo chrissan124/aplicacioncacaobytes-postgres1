@@ -42,7 +42,7 @@ class App {
           container.resolve('verifyUserService'),
           container.resolve('checkBlackListService')
         ),
-        '/api/v1/auth/access'
+        `${this.appConfig.prefix}/auth/access`
       )
     )
 
@@ -50,9 +50,14 @@ class App {
 
     bootstrapJobs(container)
 
+    app.use(
+      `${this.appConfig.prefix}/storage`,
+      express.static(`${this.appConfig.storage}`)
+    )
+
     //Automatically load all controller routes
     app.use(
-      '/api/v1/',
+      this.appConfig.prefix,
       loadControllers(`${resolve('src')}/**/*.controller.js`, {
         cwd: __dirname,
       })

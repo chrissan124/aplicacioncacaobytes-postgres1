@@ -1,5 +1,5 @@
 class getAllProductsService {
-  constructor(productsRepository) {
+  constructor(productsRepository, bus) {
     this.productsRepository = productsRepository
   }
   async getAllProducts(options) {
