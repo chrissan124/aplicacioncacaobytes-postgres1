@@ -2,6 +2,7 @@ const Sequilize = require('sequelize')
 const dotenv = require('dotenv')
 const glob = require('glob')
 const { resolve } = require('path')
+const logger = require('../../controllers/logger/logger')
 dotenv.config()
 
 function configDb() {
@@ -32,7 +33,7 @@ function configDb() {
     })
     return apiDb
   } catch (error) {
-    console.log('Error connecting to database', error)
+    logger.error(`Error connecting to sql database [${error.message}]`)
   }
 }
 

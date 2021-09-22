@@ -1,3 +1,5 @@
+const { Op } = require('sequelize')
+
 const prepareQuery = (options = {}) => {
   const pagination = paginateRequest(options)
   const conditions = setConditions(options)
@@ -40,12 +42,17 @@ function setConditions(options = {}) {
   ]
   for (let [key, value] of Object.entries(options)) {
     if (!notConditions.includes(key)) {
-      const values =
+      let values =
         typeof value === 'string' &&
         !(key.endsWith('Id') || key.endsWith('Fk') || key.endsWith('$'))
           ? value.replace('-', ' ').split(',')
           : value
-
+      if (typeof values === 'object' && !Array.isArray(values)) {
+        for (let [nestedKey, nestedValue] of Object.entries(values)) {
+          delete values[nestedKey]
+          values[Op[nestedKey]] = nestedValue
+        }
+      }
       conditions[key] = values
     }
   }

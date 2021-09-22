@@ -11,4 +11,8 @@ module.exports = function setupModel(db) {
     foreignKey: 'productFk',
     otherKey: 'clientFk',
   })
+  ClientProduct.belongsTo(Client, { foreignKey: 'clientFk' })
+  Client.hasMany(ClientProduct, { foreignKey: 'clientFk' })
+  ClientProduct.belongsTo(Product, { foreignKey: 'productFk' })
+  Product.hasMany(ClientProduct, { foreignKey: 'productFk' })
 }
