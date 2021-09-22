@@ -1,6 +1,6 @@
-const betweenValidator = require('../../common/domain/betweenValidator')
-const validateId = require('../../common/domain/idValidator')
-const ValidationException = require('../../common/domain/validationException')
+const betweenValidator = require('../../../common/domain/betweenValidator')
+const validateId = require('../../../common/domain/idValidator')
+const ValidationException = require('../../../common/domain/validationException')
 
 const scheduleTypes = ['D', 'W', 'M', 'Y']
 module.exports = function contractTemplateEntity(

@@ -12,5 +12,5 @@ const registerControllers = (createTemplateService) => ({
 })
 
 module.exports = createController(registerControllers)
-  .prefix('/api/contract-templates')
+  .prefix('/contract-templates')
   .post('', 'createTemplate')

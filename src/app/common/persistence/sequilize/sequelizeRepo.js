@@ -31,6 +31,8 @@ class SequelizeRepo extends Repo {
       conditions: {},
       deleted: true,
       order: [],
+      attr,
+      excl,
     }
   ) {
     const ops = prepareQuery(options)
@@ -39,6 +41,11 @@ class SequelizeRepo extends Repo {
       include: associations,
       limit: ops.limit,
       offset: ops.offset,
+      attributes: {
+        include: ops.attributes,
+        exclude: ops.exclude,
+      },
+      raw: ops.raw,
       where: ops.conditions,
       paranoid: !ops.deleted,
       order: ops.order,
@@ -46,10 +53,19 @@ class SequelizeRepo extends Repo {
     return items
   }
 
-  async getById(id, ops = { include: [], paranoid: true }) {
+  async getById(
+    id,
+    ops = { include: [], paranoid: true, attr: [], exclude: [] }
+  ) {
     const associations = findAssociations(this.model, ops.include)
     const item = this.model.findByPk(id, {
       include: associations,
+      attributes: {
+        include: ops.attr,
+        exclude: ops.exclude,
+      },
+      raw: ops.raw,
+      nest: ops.raw && true,
       paranoid: ops.paranoid,
     })
     return item
@@ -116,6 +132,18 @@ class SequelizeRepo extends Repo {
         await this.updateStatus(id, this.baseStatus)
       }
       return result
+    }
+    return false
+  }
+
+  async doOperation(options = { operation: '', attribute, conditions: {} }) {
+    const operation = options.operation.toLowerCase()
+    if (['max', 'min', 'sum', 'count'].includes(operation)) {
+      if (operation === 'count')
+        return await this.model[operation]({ where: options.conditions })
+      return await this.model[operation](options.attribute, {
+        where: options.conditions,
+      })
     }
     return false
   }

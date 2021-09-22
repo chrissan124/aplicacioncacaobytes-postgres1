@@ -24,7 +24,11 @@ class createInvoiceService {
         'this contract has automatic invoicing enabled'
       )
     }
-    let currentAmount = await this.invoiceRepository.getTotalAmount(contractId)
+    let currentAmount = await this.invoiceRepository.doOperation({
+      operation: 'sum',
+      attribute: 'amount',
+      conditions: { contractFk: contractId },
+    })
     invoices = Array.isArray(invoices) ? invoices : [invoices]
 
     invoices.forEach((invoice) => {

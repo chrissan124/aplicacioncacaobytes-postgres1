@@ -1,3 +1,5 @@
+const { Op } = require('sequelize')
+
 const prepareQuery = (options = {}) => {
   const pagination = paginateRequest(options)
   const conditions = setConditions(options)
@@ -6,13 +8,17 @@ const prepareQuery = (options = {}) => {
     ...pagination,
     conditions,
     order: sort,
+    raw: options.raw,
+    nest: options.raw && true,
+    ...(options.attr && { attributes: options.attr }),
+    ...(options.exclude && { exclude: options.exclude }),
   }
 }
 
 const paginateRequest = (options = {}) => {
   //Set pagination
   const { size, page, deleted } = options
-  const limit = size ? +size : 20
+  const limit = size ? +size : undefined
   const offset = page ? page * limit : 0
 
   return {
@@ -25,14 +31,28 @@ const paginateRequest = (options = {}) => {
 function setConditions(options = {}) {
   //Set filter conditions
   const conditions = {}
-  const notConditions = ['page', 'size', 'deleted', 'sort', 'include']
+  const notConditions = [
+    'page',
+    'size',
+    'deleted',
+    'sort',
+    'include',
+    'exclude',
+    'attr',
+  ]
   for (let [key, value] of Object.entries(options)) {
     if (!notConditions.includes(key)) {
-      const values =
-        typeof value === 'string' && !(key.endsWith('Id') || key.endsWith('Fk'))
+      let values =
+        typeof value === 'string' &&
+        !(key.endsWith('Id') || key.endsWith('Fk') || key.endsWith('$'))
           ? value.replace('-', ' ').split(',')
           : value
-
+      if (typeof values === 'object' && !Array.isArray(values)) {
+        for (let [nestedKey, nestedValue] of Object.entries(values)) {
+          delete values[nestedKey]
+          values[Op[nestedKey]] = nestedValue
+        }
+      }
       conditions[key] = values
     }
   }

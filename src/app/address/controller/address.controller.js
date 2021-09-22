@@ -20,6 +20,6 @@ const addressEndpoints = (createAddressService, updateAddressService) => ({
 })
 
 module.exports = createController(addressEndpoints)
-  .prefix('/api/address')
+  .prefix('/address')
   .post('', 'createAddress')
   .put('/:id', 'updateAddress')

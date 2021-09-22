@@ -6,6 +6,7 @@ module.exports = class registerUserService {
   async getUsers(options) {
     return await this.userRepository.getAll({
       include: ['Status', 'Role'],
+      exclude: ['password'],
       ...options,
     })
   }
@@ -13,6 +14,7 @@ module.exports = class registerUserService {
   async getUser(id, options) {
     return await this.userRepository.getById(id, {
       include: ['Status', 'Role'],
+      exclude: ['password'],
       ...options,
     })
   }

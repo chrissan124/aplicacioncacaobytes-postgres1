@@ -23,6 +23,6 @@ const consultControllers = (getEmployeesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/employees')
+  .prefix('/employees')
   .get('', 'getEmployees')
   .get('/:id', 'getEmployee')

@@ -2,20 +2,20 @@ const Sequilize = require('sequelize')
 const dotenv = require('dotenv')
 const glob = require('glob')
 const { resolve } = require('path')
+const logger = require('../../controllers/logger/logger')
 dotenv.config()
 
 function configDb() {
   try {
     //Create connection pool to db
     const apiDb = new Sequilize(
-      process.env.DM_POSTGRES_DB_NAME,
-      process.env.DM_POSTGRES_DB_USER,
-      process.env.DM_POSTGRES_DB_PASS,
+      process.env.POSTGRES_DB_NAME,
+      process.env.POSTGRES_DB_USER,
+      process.env.POSTGRES_DB_PASS,
       {
         dialect: 'postgres',
-        host: process.env.DM_POSTGRES_DB_HOST,
         logging:
-          process.env.DM_POSTGRES_DB_LOGGING === 'true' ? console.log : false,
+          process.env.POSTGRES_DB_LOGGING === 'true' ? console.log : false,
       }
     )
     //Use global pattern to load all database models automatically
@@ -33,7 +33,7 @@ function configDb() {
     })
     return apiDb
   } catch (error) {
-    console.log('Error connecting to database', error)
+    logger.error(`Error connecting to sql database [${error.message}]`)
   }
 }
 

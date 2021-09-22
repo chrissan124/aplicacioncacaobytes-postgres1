@@ -6,7 +6,7 @@ const alterControllers = (updateUserService, deleteUserService) => ({
   updateUser: async (req, res, next) => {
     try {
       const paramId = req.params.id
-      const bodyId = req.body.templateId
+      const bodyId = req.body.userId
       if (paramId === bodyId) {
         const result = await updateUserService.updateUser(req.body)
         res.send(result)
@@ -33,6 +33,6 @@ const alterControllers = (updateUserService, deleteUserService) => ({
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/users/:id')
+  .prefix('/users/:id')
   .put('', 'updateUser')
   .delete('', 'removeUser')

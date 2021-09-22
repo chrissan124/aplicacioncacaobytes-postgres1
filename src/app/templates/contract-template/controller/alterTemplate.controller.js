@@ -1,6 +1,6 @@
 const { createController } = require('awilix-router-core')
-const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
-const UpdateError = require('../../common/controllers/error-handling/updateError')
+const NotFoundError = require('../../../common/controllers/error-handling/NotFoundError')
+const UpdateError = require('../../../common/controllers/error-handling/updateError')
 
 const alterControllers = (updateTemplateService, removeTemplateService) => ({
   updateTemplate: async (req, res, next) => {
@@ -33,6 +33,6 @@ const alterControllers = (updateTemplateService, removeTemplateService) => ({
 })
 
 module.exports = createController(alterControllers)
-  .prefix('/api/contract-templates/:id')
+  .prefix('/contract-templates/:id')
   .put('', 'updateTemplate')
   .delete('', 'removeTemplate')

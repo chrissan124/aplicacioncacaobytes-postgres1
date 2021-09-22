@@ -24,6 +24,6 @@ const consultControllers = (getUsersService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/api/users')
+  .prefix('/users')
   .get('', 'getUsers')
   .get('/:id', 'getUser')

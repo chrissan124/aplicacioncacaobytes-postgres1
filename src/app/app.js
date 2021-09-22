@@ -11,6 +11,9 @@ const {
 } = require('./common/controllers/error-handling/errorHandler')
 const httpLogger = require('./common/controllers/logger/httpLogger')
 const logger = require('./common/controllers/logger/logger')
+const validateToken = require('./common/authentication/middleware/authenticateUser')
+const unless = require('./common/authentication/middleware/unless')
+const bootstrapJobs = require('./common/jobs')
 
 class App {
   constructor(appConfig) {
@@ -32,10 +35,29 @@ class App {
 
     app.set('json spaces', 2)
     app.set('json replacer', (k, v) => (v === null ? undefined : v))
+    //authentication middleware
+    app.use(
+      unless(
+        validateToken(
+          container.resolve('verifyUserService'),
+          container.resolve('checkBlackListService')
+        ),
+        `${this.appConfig.prefix}/auth/access`
+      )
+    )
 
     app.use(scopePerRequest(container))
+
+    bootstrapJobs(container)
+
+    app.use(
+      `${this.appConfig.prefix}/storage`,
+      express.static(`${this.appConfig.storage}`)
+    )
+
     //Automatically load all controller routes
     app.use(
+      this.appConfig.prefix,
       loadControllers(`${resolve('src')}/**/*.controller.js`, {
         cwd: __dirname,
       })

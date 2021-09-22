@@ -36,7 +36,7 @@ module.exports = function makeModel(apiDb) {
         defaultValue: DataTypes.UUIDV4,
       },
     },
-    { paranoid: true }
+    { paranoid: true, indexes: [{ unique: true, fields: ['email'] }] }
   )
   return User
 }
