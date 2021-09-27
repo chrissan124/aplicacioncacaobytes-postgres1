@@ -1,11 +1,10 @@
 const { createController } = require('awilix-router-core')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
 
 const consultControllers = (getCategoriesService) => ({
   getAllCategories: async (req, res, next) => {
     try {
       const result = await getCategoriesService.getCategories(req.query)
-      paginateResponse(req, res, result)
+      next(result)
     } catch (error) {
       next(error)
     }
@@ -13,5 +12,5 @@ const consultControllers = (getCategoriesService) => ({
 })
 
 module.exports = createController(consultControllers)
-  .prefix('/templates/categories')
+  .prefix('/categories')
   .get('', 'getAllCategories')

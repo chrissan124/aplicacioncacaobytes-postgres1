@@ -1,6 +1,5 @@
 const { createController } = require('awilix-router-core')
 const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
 
 const consultControllers = (getReceiptsService) => ({
   getReceiptContract: async (req, res, next) => {
@@ -9,7 +8,7 @@ const consultControllers = (getReceiptsService) => ({
         req.params.contractId,
         req.query
       )
-      paginateResponse(req, res, result)
+      next(result)
     } catch (error) {
       next(error)
     }

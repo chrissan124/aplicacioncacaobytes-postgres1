@@ -1,7 +1,7 @@
 const { createController } = require('awilix-express')
 const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
 const UpdateError = require('../../common/controllers/error-handling/updateError')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
+
 const ValidationException = require('../../common/domain/validationException')
 
 const API = (
@@ -25,7 +25,8 @@ const API = (
       .getAllProducts(req.query)
       .then((result) => {
         //res.send(result)
-        paginateResponse(req, res, result)
+        //next(result)
+        next(result)
       })
       .catch((err) => {
         next(err)

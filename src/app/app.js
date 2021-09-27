@@ -14,6 +14,11 @@ const logger = require('./common/controllers/logger/logger')
 const validateToken = require('./common/authentication/middleware/authenticateUser')
 const unless = require('./common/authentication/middleware/unless')
 const bootstrapJobs = require('./common/jobs')
+const paginateResponse = require('./common/controllers/pagination/paginateResponse')
+
+const corsOptions = {
+  exposedHeaders: ['X-Total-Count', 'Last-Page'],
+}
 
 class App {
   constructor(appConfig) {
@@ -30,7 +35,7 @@ class App {
     const app = express()
 
     app.use(bodyParser.json())
-    app.use(cors())
+    app.use(cors(corsOptions))
     app.use(httpLogger)
 
     app.set('json spaces', 2)
@@ -54,14 +59,16 @@ class App {
       `${this.appConfig.prefix}/storage`,
       express.static(`${this.appConfig.storage}`)
     )
+    const loadedRoutes = loadControllers(
+      `${resolve('src')}/**/*.controller.js`,
+      {
+        cwd: __dirname,
+      }
+    )
 
     //Automatically load all controller routes
-    app.use(
-      this.appConfig.prefix,
-      loadControllers(`${resolve('src')}/**/*.controller.js`, {
-        cwd: __dirname,
-      })
-    )
+    app.use(this.appConfig.prefix, loadedRoutes)
+    app.use(paginateResponse)
     app.use(logErrorMiddleware)
     app.use(databaseErrors)
     app.use(returnError)

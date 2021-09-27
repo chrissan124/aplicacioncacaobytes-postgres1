@@ -4,12 +4,12 @@ class getContractProductService {
   }
 
   async getContractProduct(ops, field) {
-    const contractProducts = await this.clientProdRepo.getAll(ops)
-    return Array.isArray(contractProducts)
-      ? contractProducts.map((raw) => {
+    const { rows } = await this.clientProdRepo.getAll(ops)
+    return Array.isArray(rows)
+      ? rows.map((raw) => {
           return field ? raw.dataValues[field] : raw.dataValues
         })
-      : contractProducts
+      : rows
   }
 }
 module.exports = getContractProductService

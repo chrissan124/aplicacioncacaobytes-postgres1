@@ -1,12 +1,11 @@
 const { createController } = require('awilix-router-core')
 const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
 
 const consultControllers = (getClientsService, getClientService) => ({
   getAllClients: async (req, res, next) => {
     try {
       const result = await getClientsService.getClients(req.query)
-      paginateResponse(req, res, result)
+      next(result)
     } catch (error) {
       next(error)
     }

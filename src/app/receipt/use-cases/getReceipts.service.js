@@ -15,9 +15,6 @@ module.exports = class getReceiptsService {
       exclude: ['Invoice'],
       ...options,
     })
-    return receipts.map((receipt) => {
-      receipt.Invoice = null
-      return receipt
-    })
+    return receipts
   }
 }

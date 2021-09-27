@@ -1,5 +1,5 @@
 const { createController } = require('awilix-router-core')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
+
 const UpdateError = require('../../common/controllers/error-handling/updateError')
 const consultControllers = (
   getContractsService,
@@ -10,7 +10,7 @@ const consultControllers = (
   getAllContracts: async (req, res, next) => {
     try {
       const result = await getContractsService.getAllContracts(req.query)
-      paginateResponse(req, res, result)
+      next(result)
     } catch (error) {
       next(error)
     }

@@ -1,5 +1,4 @@
 const { createController } = require('awilix-router-core')
-const paginateResponse = require('../../common/controllers/pagination/paginateResponse')
 
 const registerControllers = (
   createHiringService,
@@ -23,7 +22,7 @@ const registerControllers = (
         req.params.id,
         req.query
       )
-      paginateResponse(req, res, result)
+      next(result)
     } catch (error) {
       next(error)
     }

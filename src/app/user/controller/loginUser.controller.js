@@ -1,9 +1,22 @@
 const { createController } = require('awilix-router-core')
 
-const loginController = (loginUserService, logoutUserService) => ({
+const loginController = (
+  loginUserService,
+  logoutUserService,
+  getAuthUserService
+) => ({
   loginUser: async (req, res, next) => {
     try {
       const result = await loginUserService.loginUser(req.body)
+      res.send(result)
+    } catch (error) {
+      next(error)
+    }
+  },
+  getUser: async (req, res, next) => {
+    try {
+      const userId = req._user
+      const result = await getAuthUserService.getAuthUser(userId)
       res.send(result)
     } catch (error) {
       next(error)
@@ -28,3 +41,4 @@ module.exports = createController(loginController)
   .prefix('/auth')
   .all('/access', 'loginUser')
   .all('/logout', 'logoutUser')
+  .all('/me', 'getUser')

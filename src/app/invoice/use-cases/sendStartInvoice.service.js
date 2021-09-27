@@ -10,7 +10,7 @@ class sendStartInvoiceService {
       clientProductId: invoice.Contract?.clientProductFk,
       include: ['Client', 'Product'],
     })
-    clientProduct = clientProduct[0]
+    clientProduct = clientProduct.rows[0]
     if (clientProduct) {
       const mappedInfo = mapInvoiceInfo(invoice, clientProduct)
       if (overdue) {

@@ -10,10 +10,11 @@ class cancelContractService {
 
   async cancelContract(contractId) {
     await this.checkStatus(contractId)
-    const invoices = await this.invoiceRepository.getAll({
+    const result = await this.invoiceRepository.getAll({
       contractFk: contractId,
       include: ['Status'],
     })
+    const invoices = result.rows
     Array.isArray(invoices) &&
       invoices.forEach(async (invoice) => {
         if (invoice.Status.name !== statuses.PAID) {

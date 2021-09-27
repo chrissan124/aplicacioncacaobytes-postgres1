@@ -33,8 +33,8 @@ class createContractService {
       clientFk: clientId,
       productFk: productId,
     })
-    const id = existsRelation.length
-      ? existsRelation[0].clientProductId
+    const id = existsRelation.count
+      ? existsRelation.rows[0].clientProductId
       : await this.clientProdRepo.create(clientProd)
     return id
   }

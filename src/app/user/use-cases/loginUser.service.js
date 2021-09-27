@@ -4,7 +4,8 @@ const {
   checkPassword,
 } = require('../../common/controllers/encryption/encryptor')
 const UnauthorizedError = require('../../common/controllers/error-handling/unauthorizedError')
-
+const ForbiddenError = require('../../common/controllers/error-handling/forbiddenError')
+const statuses = require('../../common/persistence/status/statuses')
 class loginUserService {
   constructor(userRepository, getRolesService) {
     this.userRepository = userRepository
@@ -13,16 +14,27 @@ class loginUserService {
   async loginUser(user) {
     let foundUser = await this.userRepository.getAll({
       email: user.email,
+      include: ['Status'],
     })
 
-    foundUser = foundUser[0] || undefined
+    foundUser = foundUser.count ? foundUser.rows[0] : undefined
 
     if (foundUser) {
-      const verified = checkPassword(user.password, foundUser.password)
+      if (foundUser.Status.name === statuses.SUSPENDED) {
+        throw new ForbiddenError('This user is blocked')
+      }
+      const verified = await checkPassword(user.password, foundUser.password)
+
       if (verified) {
         const token = createToken(createUserPayload(foundUser))
         const role = await this.roleService.getRole(foundUser.roleFk)
-        return { token, Role: role }
+        return {
+          token,
+          Role: role,
+          userId: foundUser.userId,
+          firstName: foundUser.firstName,
+          lastName: foundUser.lastName,
+        }
       }
     }
     throw new UnauthorizedError()

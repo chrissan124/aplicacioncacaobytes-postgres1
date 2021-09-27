@@ -19,9 +19,10 @@ class updateInvoiceService {
       throw new NotFoundError(`contract ${contractId}`)
     }
     if (contract.automaticInvoice) {
-      const invoices = await this.invoiceRepository.getAll({
+      const result = await this.invoiceRepository.getAll({
         contractFk: contractId,
       })
+      const invoices = result.rows
       const updatedInvoices = updateInvoicing(
         contract,
         contract.ContractTemplate,

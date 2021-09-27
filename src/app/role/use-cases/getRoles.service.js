@@ -7,7 +7,7 @@ class getRolesService {
       include: ['Permissions'],
       ...options,
     })
-    return roles.map((role) => {
+    return roles.rows.map((role) => {
       return this.mapRole(role)
     })
   }

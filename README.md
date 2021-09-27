@@ -14,6 +14,7 @@ npm i
 ```
 
 - Setup .env file:
+
   You should follow `.env.example` to see required variables
 
 ## Scripts

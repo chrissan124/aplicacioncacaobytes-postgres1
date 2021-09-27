@@ -37,7 +37,7 @@ class SequelizeRepo extends Repo {
   ) {
     const ops = prepareQuery(options)
     const associations = findAssociations(this.model, options.include)
-    const items = await this.model.findAll({
+    const items = await this.model.findAndCountAll({
       include: associations,
       limit: ops.limit,
       offset: ops.offset,
