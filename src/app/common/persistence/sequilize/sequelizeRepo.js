@@ -108,15 +108,23 @@ class SequelizeRepo extends Repo {
 
   async remove(id) {
     if (id) {
-      const result = await this.model.destroy({
-        where: {
-          [this.primaryKey]: id,
-        },
+      const found = await this.model.findOne({
+        where: { [this.primaryKey]: id },
+        paranoid: false,
       })
-      if (result && this.baseStatus) {
-        await this.updateStatus(id, statuses.DELETED)
+      if (found) {
+        const force = found.deletedAt ? true : false
+        const result = await this.model.destroy({
+          where: {
+            [this.primaryKey]: id,
+          },
+          force,
+        })
+        if (result && !force && this.baseStatus) {
+          await this.updateStatus(id, statuses.DELETED)
+        }
+        return result
       }
-      return result
     }
     return false
   }

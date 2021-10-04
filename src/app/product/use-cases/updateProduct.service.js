@@ -5,7 +5,7 @@ class updateProductService {
     this.productsRepository = productsRepository
   }
   async updateProduct(product) {
-    productEntity(product)
+    productEntity(product, true)
     return this.productsRepository.update(product)
   }
 }

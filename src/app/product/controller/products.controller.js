@@ -7,8 +7,6 @@ const ValidationException = require('../../common/domain/validationException')
 const API = (
   registerProductService,
   getAllProductsService,
-  updateProductService,
-  deleteProductService
 ) => ({
   registerProduct: (req, res, next) => {
     registerProductService
@@ -47,37 +45,6 @@ const API = (
         next(err)
       })
   },
-  updateProduct: (req, res, next) => {
-    if (req.params.id === req.body.productId) {
-      updateProductService
-        .updateProduct(req.body)
-        .then((result) => {
-          res.send(result)
-        })
-        .catch((err) => {
-          next(err)
-        })
-    } else {
-      next(new UpdateError(req.params.id, req.body.productId))
-    }
-  },
-  deleteProduct: (req, res, next) => {
-    const id = req.params.id
-    if (id)
-      deleteProductService
-        .deleteProduct(id)
-        .then((result) => {
-          if (result) {
-            res.status(200).send(`Succesfully deleted product ${id}`)
-          } else {
-            next(new NotFoundError(`Product ${id}`))
-          }
-        })
-        .catch((err) => {
-          next(err)
-        })
-    else throw new ValidationException('Missing id')
-  },
 })
 
 module.exports = createController(API)
@@ -85,5 +52,3 @@ module.exports = createController(API)
   .post('', 'registerProduct')
   .get('', 'getAllProducts')
   .get('/:id', 'getProduct')
-  .put('/:id', 'updateProduct')
-  .delete('/:id', 'deleteProduct')

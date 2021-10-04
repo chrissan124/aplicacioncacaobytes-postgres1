@@ -6,7 +6,10 @@ const prepareQuery = (options = {}) => {
   const sort = setSort(options)
   return {
     ...pagination,
-    conditions,
+    conditions: {
+      ...conditions,
+      ...(options.deleted === 'only' && { deletedAt: { [Op.not]: null } }),
+    },
     order: sort,
     raw: options.raw,
     nest: options.raw && true,
@@ -24,7 +27,7 @@ const paginateRequest = (options = {}) => {
   return {
     limit,
     offset,
-    deleted: deleted === 'true',
+    deleted: deleted === 'true' || deleted === 'only',
   }
 }
 

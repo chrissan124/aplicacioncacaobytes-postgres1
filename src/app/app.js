@@ -47,7 +47,9 @@ class App {
           container.resolve('verifyUserService'),
           container.resolve('checkBlackListService')
         ),
-        `${this.appConfig.prefix}/auth/access`
+        `${this.appConfig.prefix}/auth/access`,
+        `${this.appConfig.prefix}/perms`,
+        `${this.appConfig.prefix}/statuses`
       )
     )
 
