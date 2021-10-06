@@ -13,7 +13,9 @@ module.exports = class getAuthUserService {
       return {
         user: {
           userId: foundUser.userId,
+          email: foundUser.email,
           firstName: foundUser.firstName,
+          phone: foundUser.phone,
           lastName: foundUser.lastName,
           permissions: role.Permissions,
         },
