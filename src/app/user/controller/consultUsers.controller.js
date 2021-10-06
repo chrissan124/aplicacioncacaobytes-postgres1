@@ -1,7 +1,7 @@
 const { createController } = require('awilix-router-core')
 const NotFoundError = require('../../common/controllers/error-handling/NotFoundError')
 
-const consultControllers = (getUsersService) => ({
+const consultControllers = (getUsersService, checkNewUserService) => ({
   getUsers: async (req, res, next) => {
     try {
       const result = await getUsersService.getUsers(req.query)
@@ -20,9 +20,18 @@ const consultControllers = (getUsersService) => ({
       next(error)
     }
   },
+  checkNewUser: async (req, res, next) => {
+    try {
+      const result = await checkNewUserService.checkNewUser(req.params.email)
+      res.send({ repeat: result })
+    } catch (error) {
+      next(error)
+    }
+  },
 })
 
 module.exports = createController(consultControllers)
   .prefix('/users')
   .get('', 'getUsers')
   .get('/:id', 'getUser')
+  .get('/email/:email', 'checkNewUser')

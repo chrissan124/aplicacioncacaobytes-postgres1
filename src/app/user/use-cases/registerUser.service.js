@@ -5,16 +5,21 @@ const {
 const userEntity = require('../domain/userEntity')
 
 module.exports = class registerUserService {
-  constructor(userRepository) {
+  constructor(userRepository, bus) {
     this.userRepository = userRepository
+    this.bus = bus
   }
 
   async registerUser(user) {
     userEntity(user)
+    let password = ''
     if (!user.password) {
-      user.password = generatePassword()
+      password = generatePassword()
+      user.password = password
     }
     user.password = await encryptPassword(user.password)
-    return await this.userRepository.create(user)
+    const result = await this.userRepository.create(user)
+    if (result) this.bus.emit('userRegistered', { ...user, password })
+    return result
   }
 }

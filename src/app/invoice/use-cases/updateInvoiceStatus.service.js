@@ -18,7 +18,12 @@ module.exports = class updateInvoiceStatus {
     const startInvoices = startResult.rows
     const expiredResult = await this.invoiceRepository.getAll({
       deadline: { lte: now.toSQLDate() },
-      statusFk: { ne: this.findStatus(foundStatuses, statuses.PAID) },
+      statusFk: {
+        notIn: [
+          this.findStatus(foundStatuses, statuses.PAID),
+          this.findStatus(foundStatuses, statuses.CANCELLED),
+        ],
+      },
       include: ['Contract'],
       overdue: { ne: true },
     })

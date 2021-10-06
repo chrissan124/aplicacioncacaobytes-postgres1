@@ -30,9 +30,23 @@ const alterControllers = (updateUserService, deleteUserService) => ({
       next(error)
     }
   },
+  restoreUser: async (req, res, next) => {
+    try {
+      const id = req.params.id
+      const result = await deleteUserService.restoreUser(id)
+      if (result) {
+        res.send(`User ${id} succesfully restored`)
+      } else {
+        next(new NotFoundError(`User ${id}`))
+      }
+    } catch (error) {
+      next(error)
+    }
+  },
 })
 
 module.exports = createController(alterControllers)
   .prefix('/users/:id')
   .put('', 'updateUser')
   .delete('', 'removeUser')
+  .patch('', 'restoreUser')

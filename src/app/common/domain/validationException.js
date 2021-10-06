@@ -5,7 +5,7 @@ class ValidationException extends BaseError {
   constructor(
     name,
     statusCode = httpStatusCodes.BAD_REQUEST,
-    description = 'Validation exception: ' + name,
+    description = name,
     isOperational = true,
     errorCode = 100
   ) {
